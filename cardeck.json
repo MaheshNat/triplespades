@@ -1,0 +1,315 @@
+[
+  {
+    "Type": "Clubs",
+    "Card Name": "2",
+    "Rank": "2",
+    "Pointvalue": "0",
+    "Image": ""
+  }, {
+  "Type": "Clubs",
+  "Card Name": "3",
+  "Rank": "3",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "4",
+  "Rank": "4",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "5",
+  "Rank": "5",
+  "Pointvalue": "5",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "6",
+  "Rank": "6",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "7",
+  "Rank": "7",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "8",
+  "Rank": "8",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "9",
+  "Rank": "9",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "10",
+  "Rank": "10",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "J",
+  "Rank": "11",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "Q",
+  "Rank": "12",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "K",
+  "Rank": "13",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Clubs",
+  "Card Name": "A",
+  "Rank": "14",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "2",
+  "Rank": "2",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "3",
+  "Rank": "3",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "4",
+  "Rank": "4",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "5",
+  "Rank": "5",
+  "Pointvalue": "5",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "6",
+  "Rank": "6",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "7",
+  "Rank": "7",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "8",
+  "Rank": "8",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "9",
+  "Rank": "9",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "10",
+  "Rank": "10",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "J",
+  "Rank": "11",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "Q",
+  "Rank": "12",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "K",
+  "Rank": "13",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Diamond",
+  "Card Name": "A",
+  "Rank": "14",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "2",
+  "Rank": "2",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "3",
+  "Rank": "3",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "4",
+  "Rank": "4",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "5",
+  "Rank": "5",
+  "Pointvalue": "5",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "6",
+  "Rank": "6",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "7",
+  "Rank": "7",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "8",
+  "Rank": "8",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "9",
+  "Rank": "9",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "10",
+  "Rank": "10",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "J",
+  "Rank": "11",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "Q",
+  "Rank": "12",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "K",
+  "Rank": "13",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Hearts",
+  "Card Name": "A",
+  "Rank": "14",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "2",
+  "Rank": "2",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "3",
+  "Rank": "3",
+  "Pointvalue": "30",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "4",
+  "Rank": "4",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "5",
+  "Rank": "5",
+  "Pointvalue": "5",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "6",
+  "Rank": "6",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "7",
+  "Rank": "7",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "8",
+  "Rank": "8",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "9",
+  "Rank": "9",
+  "Pointvalue": "0",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "10",
+  "Rank": "10",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "J",
+  "Rank": "11",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "Q",
+  "Rank": "12",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "K",
+  "Rank": "13",
+  "Pointvalue": "10",
+  "Image": ""
+}, {
+  "Type": "Spades",
+  "Card Name": "A",
+  "Rank": "14",
+  "Pointvalue": "10",
+  "Image": ""
+}
+]
