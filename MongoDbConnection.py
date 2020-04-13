@@ -2,8 +2,7 @@ import json
 from os.path import abspath, exists
 
 import mongoengine as me
-DB_URI = "mongodb+srv://helli:Password!@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w" \
-         "=majority"
+DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/test?retryWrites=true&w=majority'
 
 # Create Model object to represnet Deck class
 
@@ -15,7 +14,8 @@ class CardDeck(me.Document):
     point_value = me.IntField(required=True, max_value=30)
     image = me.StringField(required=True)
 
-    def __init__(self, suit, name, rank, point_value, image):
+    def __init__(self, suit, name, rank, point_value, image, *args, **kwargs):
+        super(me.Document, self).__init__(*args, **kwargs)
         self.suit = suit
         self.name = name
         self.rank = rank
