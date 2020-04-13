@@ -1,55 +1,59 @@
 from random import random
 import math
 
+# generates random integer between 10 and 20
 min = 10
 max = 20
 print(math.floor(random() * (max - min + 1)) + min)
 
 # variable types
-# String
-name = '''multi     
+# strings
+name = 'Mahesh'
+multi_line = '''multi     
 line'''
-name = f'My name is: {name}'
-name = 'My name is: %s' % (name)
-print(name)
-name = 2
-print(name)
-# Number
+ex1 = f'My name is: {name}'
+ex2 = 'My name is: %s' % (name)
+print(name, multi_line, ex1, ex2)
+# numbers
 number = 0.2
-# print(number)
 
 # operators
 # +, -, *, /, //, **
-# print(2 ** 3)
+print(f'2 ** 3: {2 ** 3}')
 
-# list
+# lists
 list = ['a', 'a', 'b', 'c', 'd']
-print(list[0:3])
-list[2] = 'index 2'
+print(f'slice from [0, 3): {list[0:3]}')
+list[2] = f'index 2: {list[2]}'
 print(list)
-del list[2]
-print(list)
-list.append('f')
-list.insert(0, 'start')
+del list[2]  # java equivalent: list.remove(2)
+list.append('f')  # java equivalent: list.add('f')
+list.insert(0, 'start')  # java equivalent: list.add(0, 'start's)
 # removes first instance
 list.remove('a')
 list.sort()
 list = sorted(list)
-print(len(list))
-print(max(list))
-print(min(list))
-print(list)
+list.reverse()
+print(f'length of list: {len(list)}')  # prints length of list
 
 # tuples
+# are immutable; cannot be changed
+# use case: returning multiple values from a function
 tuple = ('a', 'b', 'c', 'd')
 
-# throws error v
+# throws error
 # tuple[0] = 'b'
 # print(tuple)
 
 # dictionaries
+# are like maps in java
 grades = {'student a': 100, 'student b': 90}
 map = {'key': 'value', 'second key': 'second value'}
+
+for key in grades:
+    print(key, f'got a grade of {grades[key]}')
+
+print(f"student a got a grade of: {grades['student a']}")
 
 grade = 100
 
@@ -59,7 +63,6 @@ elif grade >= 80:
     print('You got a B!')
 else:
     print('You got something else!')
-
 
 for num in range(0, 11):
     print(num)
@@ -72,10 +75,10 @@ i = 1
 while(i < 10):
     i += 1
     if(i == 3):
-        continue
+        continue  # goes to next iteration of loop
     print(i)
     if(i == 8):
-        break
+        break  # exits loop
 
 
 def the_sum(a, b):
@@ -101,7 +104,7 @@ print(the_sum_keyword(a=10, b=2))
 
 print(the_sum(10, 2))
 
-with open('basics.txt') as f:
+with open('tutorials/basics.txt') as f:
     for line in f:
         print(line)
 
@@ -116,5 +119,11 @@ class Animal:
         self.height = height
         self.weight = weight
 
-    def get_name(self):
-        return self.name
+    def to_string(self):
+        return f'name: {self.name}, height: {self.height}, weight: {self.weight}'
+
+
+# we can instantiate an Animal with a dictionary using **args
+args = {'name': 'Dog', 'height': 2, 'weight': 50}
+dog = Animal(**args)
+print(dog.to_string())
