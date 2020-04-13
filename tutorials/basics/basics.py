@@ -104,7 +104,7 @@ print(the_sum_keyword(a=10, b=2))
 
 print(the_sum(10, 2))
 
-with open('tutorials/basics.txt') as f:
+with open('tutorials/basics/basics.txt') as f:
     for line in f:
         print(line)
 
