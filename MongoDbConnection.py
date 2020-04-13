@@ -2,7 +2,7 @@ import json
 from os.path import abspath, exists
 
 import mongoengine as me
-DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/test?retryWrites=true&w=majority'
+DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
 
 # Create Model object to represnet Deck class
 
