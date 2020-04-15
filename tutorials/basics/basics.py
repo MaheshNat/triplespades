@@ -9,7 +9,7 @@ print(math.floor(random() * (max - min + 1)) + min)
 # variable types
 # strings
 name = 'Mahesh'
-multi_line = '''multi     
+multi_line = '''multi
 line'''
 ex1 = f'My name is: {name}'
 ex2 = 'My name is: %s' % (name)

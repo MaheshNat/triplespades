@@ -1,7 +1,5 @@
 import math
 
-player_o = input('Enter a name for player O: ')
-player_x = input('Enter a name for player X: ')
 turn = 'X'
 round_ended = False
 game_ended = False
@@ -17,35 +15,47 @@ def print_board():
         print()
 
 
-def to_row_col(pos):
-    return (math.floor((loc - 1) / 3), math.floor((loc - 1) % 3))
-
-
 def check(a, b, c):
-    a_row, a_col = to_row_col(a)
-    b_row, b_col = to_row_col(b)
-    c_row, c_col = to_row_col(c)
-
-    if board[a_row][a_col] == board[b_row][b_col] == board[c_row][c_col]:
-        return board[a_row][a_col]
-    return None
+    return a == b == c and not a == '-'
 
 
 def check_for_win():
-    wins = [[0, 4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5],
-            [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8]]
-    for win in wins:
-        check = check(win[0], win[1], win[2])
-        if(check != None):
-            return check
+    # checking rows
+    for row in board:
+        if check(row[0], row[1], row[2]):
+            return row[0]
+    # checking columns
+    for col in range(0, 3):
+        if check(board[0][col], board[1][col], board[2][col]):
+            return board[0][col]
+    # checking diagonals
+    if check(board[0][0], board[1][1], board[2][2]):
+        return board[0][0]
+    if check(board[2][0], board[1][1], board[0][2]):
+        return board[2][0]
 
 
 while not game_ended:
     while not round_ended:
-        loc = int(input(
-            f'{player_x if turn == "X" else player_o} Enter a location to place your marker [1-9]'))
-        row, col = to_row_col(loc)
+        row = int(input(
+            f'Player {turn}, enter a row to place your marker [0, 2]: '))
+        col = int(input(
+            f'Player {turn}, enter a column to place your marker [0, 2]: '))
         if board[row][col] != '-':
             print('You cannot place a marker at that location!')
             continue
         board[row][col] = turn
+        print_board()
+        win = check_for_win()
+        turn = 'O' if turn == 'X' else 'X'
+        if(win != None):
+            print(f'Congratulations, player {win} won the game!')
+            round_ended = True
+    play_again = input('Would you like to play again? (y / n): ')
+    if play_again == 'y':
+        round_ended = False
+        board = [['-', '-', '-'],
+                 ['-', '-', '-'],
+                 ['-', '-', '-']]
+    else:
+        game_ended = True
