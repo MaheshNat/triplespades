@@ -38,7 +38,7 @@ def check_for_win_better():
     for winner in [row[0] for row in b if check(*row)]:
         return winner
     # checking columns
-    for winner in [row[0] for row in list(zip(*b)) if check(*row)]: 
+    for winner in [col[0] for col in list(zip(*b)) if check(*col)]: 
         return winner
     # checking diagonals
     # this last one is just a meme, nobody can understand it
