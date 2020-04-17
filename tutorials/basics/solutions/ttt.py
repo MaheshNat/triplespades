@@ -20,19 +20,15 @@ def check(a, b, c):
 
 
 def check_for_win():
-    # checking rows
-    for row in board:
-        if check(row[0], row[1], row[2]):
-            return row[0]
     # checking columns
-    for col in range(0, 3):
-        if check(board[0][col], board[1][col], board[2][col]):
-            return board[0][col]
+    for x in range(0, 3):
+        if check(board[x][0], board[x][1], board[x][2]):
+            return board[x][0]
+        if check(board[0][x], board[1][x], board[2][x]):
+            return board[0][x]
     # checking diagonals
-    if check(board[0][0], board[1][1], board[2][2]):
-        return board[0][0]
-    if check(board[2][0], board[1][1], board[0][2]):
-        return board[2][0]
+    if check(board[0][0], board[1][1], board[2][2]) or check(board[2][0], board[1][1], board[0][2]):
+        return board[1][1]
 
 
 while not game_ended:
@@ -48,7 +44,7 @@ while not game_ended:
         print_board()
         win = check_for_win()
         turn = 'O' if turn == 'X' else 'X'
-        if(win != None):
+        if(win):
             print(f'Congratulations, player {win} won the game!')
             round_ended = True
     play_again = input('Would you like to play again? (y / n): ')

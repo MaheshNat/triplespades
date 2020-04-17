@@ -1,4 +1,4 @@
-from random import random
+import random as rand
 import math
 
 min = int(input('Enter a lower bound: '))
@@ -8,7 +8,7 @@ round_ended = False
 game_ended = False
 
 while not game_ended:
-    answer = math.floor(random() * (max - min + 1)) + min
+    answer = rand.randrange(min, max)
     tries = 0
     while not round_ended:
         guess = int(input(f'Take a guess between {min} and {max}: '))
