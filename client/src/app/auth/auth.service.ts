@@ -5,9 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 export interface AuthResponseData {
-  idToken: string;
   email: string;
-  localId: string;
 }
 
 @Injectable({
@@ -27,11 +25,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          const user = new User(
-            resData.email,
-            resData.localId,
-            resData.idToken
-          );
+          const user = new User(resData.email);
           this.user.next(user);
           localStorage.setItem('userData', JSON.stringify(user));
         })
@@ -46,11 +40,8 @@ export class AuthService {
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) return;
 
-    const loadedUser = new User(userData.email, userData.id, userData.token);
-
-    if (loadedUser.token) {
-      this.user.next(loadedUser);
-    }
+    const loadedUser = new User(userData.email);
+    this.user.next(loadedUser);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -58,9 +49,6 @@ export class AuthService {
     if (!errorRes.error || !errorRes.error.error)
       return throwError(errorMessage);
     switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'Email already exists.';
-        break;
       case 'EMAIL_NOT_FOUND':
         errorMessage = 'Email does not exist.';
         break;

@@ -20,7 +20,7 @@ export class AuthComponent {
       (resData) => {
         console.log(resData);
         this.isLoading = false;
-        // navigate to game route
+        this.router.navigate(['/game']);
       },
       (errorMessage) => {
         console.log(errorMessage);

@@ -12,9 +12,13 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { HomeComponent } from './home/home.component';
+import { GameComponent } from './game/game.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, SpinnerComponent],
+  declarations: [AppComponent, AuthComponent, SpinnerComponent, HomeComponent, GameComponent, ScoreboardComponent, HeaderComponent],
   imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
   providers: [
     {
