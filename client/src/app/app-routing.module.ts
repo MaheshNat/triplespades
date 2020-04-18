@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'auth', component: AuthComponent },
   { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
   { path: 'scoreboard', component: ScoreboardComponent },
-  //register canActivate: AuthGuard for components which need guarding
 ];
 
 @NgModule({

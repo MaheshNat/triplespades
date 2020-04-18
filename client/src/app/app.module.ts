@@ -16,10 +16,25 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HeaderComponent } from './header/header.component';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AppComponent, AuthComponent, SpinnerComponent, HomeComponent, GameComponent, ScoreboardComponent, HeaderComponent],
-  imports: [BrowserModule, FormsModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent,
+    AuthComponent,
+    SpinnerComponent,
+    HomeComponent,
+    GameComponent,
+    ScoreboardComponent,
+    HeaderComponent,
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    NgbCollapseModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
