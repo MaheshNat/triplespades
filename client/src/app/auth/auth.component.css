@@ -9,3 +9,7 @@
 .shadow {
   padding: 2em;
 }
+
+.login {
+  border-radius: 10px;
+}
