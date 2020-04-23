@@ -2,11 +2,13 @@ import { User } from './user.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError, Subject, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmailValidator } from '@angular/forms';
 
 export interface AuthResponseData {
   email: string;
+  password: string;
 }
 
 @Injectable({
@@ -26,7 +28,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          const user = new User(resData.email);
+          const user = new User(resData.email, resData.password);
           this.user.next(user);
           localStorage.setItem('userData', JSON.stringify(user));
         })
@@ -39,15 +41,33 @@ export class AuthService {
       password: string;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) return;
-
-    const loadedUser = new User(userData.email);
-    this.user.next(loadedUser);
+    return this.http
+      .post<AuthResponseData>('http://127.0.0.1:5000/login', {
+        email: userData.email,
+        password: userData.password,
+      })
+      .pipe(
+        catchError(this.handleError),
+        tap(() => {
+          const loadedUser = new User(userData.email, userData.password);
+          this.user.next(loadedUser);
+        })
+      );
   }
 
   logout() {
-    this.user.next(null);
-    this.router.navigate(['/auth']);
-    localStorage.removeItem('userData');
+    console.log('logout called');
+    return this.http
+      .post<AuthResponseData>('http://127.0.0.1:5000/logout', {
+        email: this.user.value.email,
+      })
+      .pipe(
+        catchError(this.handleError),
+        tap((resData) => {
+          this.user.next(null);
+          localStorage.removeItem('userData');
+        })
+      );
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -62,6 +82,10 @@ export class AuthService {
         break;
       case 'ROOM_FULL':
         errorMessage = 'The room is currently full.';
+        break;
+      case 'ALREADY_AUTHENTICATED':
+        errorMessage =
+          'You are already logged in from another tab. Log out from another tab or close the current tab to continue.';
         break;
     }
     return throwError(errorMessage);

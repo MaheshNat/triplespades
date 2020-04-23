@@ -18,7 +18,11 @@
   <div class="collapse navbar-collapse" id="nav" [ngbCollapse]="isCollapsed">
     <ul class="nav navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/auth"
+        <a
+          class="nav-link"
+          *ngIf="!isAuthenticated"
+          routerLinkActive="active"
+          routerLink="/auth"
           >Login</a
         >
       </li>
