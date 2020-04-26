@@ -17,6 +17,7 @@ import { GameComponent } from './game/game.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HeaderComponent } from './header/header.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
     GameComponent,
     ScoreboardComponent,
     HeaderComponent,
+    WaitingRoomComponent,
   ],
   imports: [
     BrowserModule,

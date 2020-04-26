@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Injectable, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmailValidator } from '@angular/forms';
-
+import { SocketService } from '../socket.service';
 export interface AuthResponseData {
   email: string;
   password: string;
@@ -17,7 +17,11 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private socketService: SocketService
+  ) {}
 
   login(email: string, password: string) {
     return this.http
@@ -28,9 +32,10 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
-          const user = new User(resData.email, resData.password);
+          const user = new User(resData.email, resData.password, true);
           this.user.next(user);
           localStorage.setItem('userData', JSON.stringify(user));
+          this.socketService.emit('join', user);
         })
       );
   }
@@ -41,18 +46,11 @@ export class AuthService {
       password: string;
     } = JSON.parse(localStorage.getItem('userData'));
     if (!userData) return;
-    return this.http
-      .post<AuthResponseData>('http://127.0.0.1:5000/login', {
-        email: userData.email,
-        password: userData.password,
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap(() => {
-          const loadedUser = new User(userData.email, userData.password);
-          this.user.next(loadedUser);
-        })
-      );
+    this.socketService.emit(
+      'join',
+      new User(userData.email, userData.password, true)
+    );
+    return this.login(userData.email, userData.password);
   }
 
   logout() {
@@ -65,6 +63,10 @@ export class AuthService {
         catchError(this.handleError),
         tap((resData) => {
           this.user.next(null);
+          this.socketService.emit(
+            'leave',
+            new User(resData.email, resData.password, false)
+          );
           localStorage.removeItem('userData');
         })
       );
@@ -79,9 +81,6 @@ export class AuthService {
         break;
       case 'INVALID_PASSWORD':
         errorMessage = 'Incorrect password.';
-        break;
-      case 'ROOM_FULL':
-        errorMessage = 'The room is currently full.';
         break;
       case 'ALREADY_AUTHENTICATED':
         errorMessage =
