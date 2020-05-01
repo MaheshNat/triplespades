@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../auth/user.model';
 import { Subscription } from 'rxjs';
+import { Player } from '../player.model';
 
 @Component({
   selector: 'app-waiting-room',
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./waiting-room.component.css'],
 })
 export class WaitingRoomComponent implements OnInit, OnDestroy {
-  users: User[] = [];
+  players: Player[] = [];
   subscriptions: Subscription[] = [];
 
   constructor(private socketService: SocketService, private http: HttpClient) {}
@@ -18,26 +18,26 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions.push(
       this.http
-        .get<User[]>('http://127.0.0.1:5000/users')
-        .subscribe((users) => {
-          this.users = users;
-          console.log(users);
+        .get<Player[]>('http://127.0.0.1:5000/users')
+        .subscribe((players) => {
+          this.players = players;
+          console.log(players);
           this.subscriptions.push(
-            this.socketService.listen('join').subscribe((user: User) => {
-              console.log(`${user.email} joined`);
-              let index = this.users.findIndex(
-                (_user) => _user.email === user.email
+            this.socketService.listen('join').subscribe((player: Player) => {
+              console.log(`${player.name} joined`);
+              let index = this.players.findIndex(
+                (_player) => _player.name === player.name
               );
-              this.users[index].authenticated = true;
+              this.players[index].authenticated = true;
             })
           );
         })
     );
     this.subscriptions.push(
-      this.socketService.listen('leave').subscribe((user: User) => {
-        console.log(`${user.email} left`);
-        this.users[
-          this.users.findIndex((_user) => _user.email === user.email)
+      this.socketService.listen('leave').subscribe((player: Player) => {
+        console.log(`${player.name} left`);
+        this.players[
+          this.players.findIndex((_player) => _player.name === player.name)
         ].authenticated = false;
       })
     );

@@ -27,8 +27,11 @@
         >
       </li>
       <li class="nav-item" *ngIf="isAuthenticated">
-        <a class="nav-link" routerLinkActive="active" routerLink="/waiting-room"
-          >Waiting Room</a
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          [routerLink]="game.started ? '/game' : '/waiting-room'"
+          >{{ game.started ? 'Game' : 'Waiting Room' }}</a
         >
       </li>
       <li class="nav-item">

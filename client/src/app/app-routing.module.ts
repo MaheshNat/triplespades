@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'game',
     component: GameComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   { path: 'scoreboard', component: ScoreboardComponent },
 ];

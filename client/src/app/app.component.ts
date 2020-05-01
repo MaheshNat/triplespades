@@ -4,6 +4,7 @@ import { User } from './auth/user.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SocketService } from './socket.service';
+import { GameService } from './game/game.service';
 
 @Component({
   selector: 'app-root',
@@ -17,17 +18,17 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private gameService: GameService,
     private router: Router,
     private socketService: SocketService
   ) {}
 
-  ngOnInit() {
-    this.authService.autoLogin().subscribe((resData) => {
-      this.router.navigate(['/waiting-room']);
-    });
+  async ngOnInit() {
+    this.authService.autoLogin();
 
     this.socketSub = this.socketService.listen('start_game').subscribe(() => {
       this.router.navigate(['/game']);
+      this.gameService.startGame();
     });
 
     this.userSub = this.authService.user.subscribe((user) => {
@@ -35,13 +36,17 @@ export class AppComponent implements OnInit {
     });
 
     let context = this;
-    window.addEventListener('beforeunload', function (e) {
-      if (context.user) context.authService.logout().subscribe();
+    window.addEventListener('beforeunload', async (e) => {
+      if (context.user)
+        await context.authService
+          .changeStatus(this.user.email, false)
+          .toPromise();
     });
   }
 
-  ngOnDestroy() {
+  async ngOnDestroy() {
     this.userSub.unsubscribe();
-    this.authService.logout().subscribe();
+    this.socketSub.unsubscribe();
+    await this.authService.changeStatus(this.user.email, false).toPromise();
   }
 }
