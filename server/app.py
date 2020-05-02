@@ -28,8 +28,8 @@ client.CardDeck.blacklist_tokens.create_index(
 def join(data):
     users = client.CardDeck.users
     not_authenticated_users = users.find({'authenticated': False})
-    # if str(dumps(not_authenticated_users)) == '[]':
-    emit('start_game', broadcast=True)
+    if str(dumps(not_authenticated_users)) == '[]':
+        emit('start_game', broadcast=True)
     emit('join', data, broadcast=True)
 
 
@@ -69,7 +69,7 @@ def login():
 
     auth_token = util.encode_auth_token(str(user['_id']))
     print(auth_token)
-    # users.update_one(user, {'$set': {'authenticated': True}})
+    users.update_one(user, {'$set': {'authenticated': True}})
     return jsonify({'token': auth_token.decode(), 'name': user['name']})
 
 # request body: {email: string, token: string}
@@ -92,7 +92,7 @@ def logout():
         return jsonify({'message': 'success'})
 
 # request body: None
-# response body: User[]
+# response body: [{name: string, authenticated: boolean}]
 @app.route('/users', methods=['GET'])
 def get_authenticated_users():
     users = client.CardDeck.users
