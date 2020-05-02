@@ -1,0 +1,47 @@
+<script>
+  function validateform(){
+  var name=document.Login_Form.name.value;
+  var password=document.Login_Form.password.value;
+
+  if (name==null || name==""){
+      alert("Name can't be blank");
+          return false;
+  }
+  else if(password.length<6){
+      alert("Password must be at least 6 characters long.");
+          return false;
+}
+}
+</script>
+  <font face="Comic Sans MS" color="Black">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1>Three Of Spades(Kaali Teeri)</h1>
+  <h2>Login To Play</h2>
+  <form name="Login_Form" action="Login.py">
+  <p>
+    <label>Email     :</label>
+      <input type = "Email"
+           id = "Mail"
+           value = ""
+           autofocus>
+  </p>
+  <br>
+  <p>
+    <label>Password:</label>
+    <input type = "Password"
+           id = "Pass"
+           value = "">
+  </p>
+  <p>
+   <a href="start game.html">
+     <button type="button">Login</button>
+    </a>
+  </p>
+</form>
+</font>
