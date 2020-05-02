@@ -5,7 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../socket.service';
-import { Player } from '../player.model';
+import { Player } from '../shared/player.model';
 
 @Injectable({
   providedIn: 'root',

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { Player } from '../player.model';
+import { Player } from '../shared/player.model';
 
 @Component({
   selector: 'app-waiting-room',
