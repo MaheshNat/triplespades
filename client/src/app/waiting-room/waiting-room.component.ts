@@ -11,39 +11,32 @@ import { Player } from '../shared/player.model';
 })
 export class WaitingRoomComponent implements OnInit, OnDestroy {
   players: Player[] = [];
-  subscriptions: Subscription[] = [];
 
   constructor(private socketService: SocketService, private http: HttpClient) {}
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.http
-        .get<Player[]>('http://127.0.0.1:5000/users')
-        .subscribe((players) => {
-          this.players = players;
-          console.log(players);
-          this.subscriptions.push(
-            this.socketService.listen('join').subscribe((player: Player) => {
-              console.log(`${player.name} joined`);
-              let index = this.players.findIndex(
-                (_player) => _player.name === player.name
-              );
-              this.players[index].authenticated = true;
-            })
+    this.http
+      .get<Player[]>('http://127.0.0.1:5000/users')
+      .subscribe((players) => {
+        this.players = players;
+        console.log(players);
+
+        this.socketService.listen('join').subscribe((player: Player) => {
+          console.log(`${player.name} joined`);
+          let index = this.players.findIndex(
+            (_player) => _player.name === player.name
           );
-        })
-    );
-    this.subscriptions.push(
-      this.socketService.listen('leave').subscribe((player: Player) => {
-        console.log(`${player.name} left`);
-        this.players[
-          this.players.findIndex((_player) => _player.name === player.name)
-        ].authenticated = false;
-      })
-    );
+          this.players[index].authenticated = true;
+        });
+      });
+
+    this.socketService.listen('leave').subscribe((player: Player) => {
+      console.log(`${player.name} left`);
+      this.players[
+        this.players.findIndex((_player) => _player.name === player.name)
+      ].authenticated = false;
+    });
   }
 
-  ngOnDestroy() {
-    for (let subscription of this.subscriptions) subscription.unsubscribe();
-  }
+  ngOnDestroy() {}
 }

@@ -10,7 +10,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
@@ -19,17 +18,20 @@ import { HeaderComponent } from './header/header.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
 import { SharedModule } from './shared/shared.module';
+import { RecipeComponent } from './recipe/recipe.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    SpinnerComponent,
     HomeComponent,
     GameComponent,
     ScoreboardComponent,
     HeaderComponent,
     WaitingRoomComponent,
+    RecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,8 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     NgbCollapseModule,
     SharedModule,
+    MatSliderModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

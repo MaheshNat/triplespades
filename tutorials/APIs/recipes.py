@@ -11,7 +11,7 @@ client = MongoClient(DB_URI)
 CORS(app)
 
 
-@app.route('/insert-recipe', methods=['POST'])
+@app.route('/recipes', methods=['POST'])
 def insert_recipe():
     data = request.get_json(force=True)
     if not data.get('name') or not data.get('description'):
@@ -22,31 +22,25 @@ def insert_recipe():
     return jsonify({'message': 'SUCCESS'})
 
 
-@app.route('/get-recipes', methods=['GET'])
+@app.route('/recipes', methods=['GET'])
 def get_recipes():
-    recipes = list(client.CardDeck.recipes.find())
-    return dumps(recipes)
+    return dumps(list(client.CardDeck.recipes.find()))
 
 
-@app.route('/update-recipe', methods=['PUT'])
-def update_recipe():
+@app.route('/recipes/<id>', methods=['PUT'])
+def update_recipe(id):
     data = request.get_json(force=True)
-    if not data.get('id'):
-        return response('NO_ID_PROVIDED', 400)
     if not data.get('name') or not data.get('description'):
         return response('INCOMPLETE_RECIPE', 400)
     client.CardDeck.recipes.find_one_and_update(
-        {'_id': ObjectId(data['id'])}, {'$set': {'name': data['name'], 'description': data['description']}})
+        {'_id': ObjectId(id)}, {'$set': {'name': data['name'], 'description': data['description']}})
     return jsonify({'message': 'SUCCESS'})
 
 
-@app.route('/delete-recipe', methods=['DELETE'])
-def delete_recipe():
-    data = request.get_json(force=True)
-    if not data.get('id'):
-        return response('NO_ID_PROVIDED', 400)
+@app.route('/recipes/<id>', methods=['DELETE'])
+def delete_recipe(id):
     recipe = client.CardDeck.recipes.find_one_and_delete(
-        {'_id': ObjectId(data['id'])})
+        {'_id': ObjectId(id)})
     return jsonify({'message': 'SUCCESS'})
 
 

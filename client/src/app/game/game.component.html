@@ -1,1 +1,87 @@
-<p>Game Component Stuff Goes Here!</p>
+<div class="container">
+  <div
+    class="row justify-content-center jumbotron"
+    style="margin-top: 2em; padding: 2em;"
+  >
+    <h2>
+      The current highest bidder is <strong>{{ highestBidPlayer.name }}</strong>
+      with a bid of
+      <strong>{{ highestBidPlayer.bid }}</strong>
+    </h2>
+  </div>
+  <div class="row justify-content-center" style="margin-top: 1em;">
+    <div class="col-xs-6" style="margin-right: 1em;">
+      <button class="btn-sm btn-danger" (click)="decrementBidValue()">
+        <h4>-</h4>
+      </button>
+    </div>
+    <div class="col-xs-6" style="margin-right: 1em;">
+      <mat-slider
+        min="125"
+        max="250"
+        step="5"
+        thumbLabel
+        tickInterval="1"
+        [(value)]="bidValue"
+      ></mat-slider>
+    </div>
+    <div class="col-xs-6" style="margin-right: 1em;">
+      <button class="btn-sm btn-success" (click)="incrementBidValue()">
+        <h4>+</h4>
+      </button>
+    </div>
+    <div class="col-xs-6" style="margin-right: 1em;">
+      <h3>
+        <span class="badge badge-secondary">
+          {{ bidValue }}
+        </span>
+      </h3>
+    </div>
+    <div class="col-xs-6">
+      <button
+        class="btn btn-success"
+        (click)="onBid()"
+        [disabled]="bidValue <= highestBidPlayer.bid"
+        [ngStyle]="{
+          cursor: bidValue <= highestBidPlayer.bid ? 'not-allowed' : 'default'
+        }"
+      >
+        Bid
+      </button>
+    </div>
+  </div>
+  <!-- <div class="row justify-content-center" style="margin-top: 1em;">
+    <div
+      class="col-lg-3 col-md-4 col-xs-5 text-center"
+      *ngFor="let player of players"
+      style="margin-right: 2em; margin-bottom: 2em;"
+    >
+      <div
+        class="card"
+        [ngClass]="{ 'border-warning mb-3 shadow': player.highestBidder }"
+      >
+        <h5 class="card-header">{{ player.name }}</h5>
+        <div
+          class="card-body text-warning"
+          [ngClass]="{ 'text-warning': player.highestBidder }"
+        >
+          <p class="card-text">Last Bid: {{ player.bid || 'Has Not Bid' }}</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="row justify-content-center" style="margin-top: 1em;">
+    <h1>Your Cards</h1>
+  </div>
+  <div class="row justify-content-center" style="margin-top: 1em;">
+    <div class="col-xs-2">
+      <img
+        class="img-responsive"
+        style="max-width: 100px; margin: 1em;"
+        [src]="getImage(card)"
+        alt=""
+        *ngFor="let card of cards"
+      />
+    </div>
+  </div>
+</div>

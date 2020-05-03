@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.authService.autoLogin();
+    // this.authService.autoLogin();
 
     this.socketSub = this.socketService.listen('start_game').subscribe(() => {
       this.router.navigate(['/game']);

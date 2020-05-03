@@ -1,3 +1,4 @@
+import random
 from flask import Flask, jsonify, request, make_response
 from flask_socketio import SocketIO, send, emit
 from flask_cors import CORS
@@ -12,6 +13,7 @@ from flask_bcrypt import Bcrypt
 
 DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
 BCRYPT_LOG_ROUNDS = 4
+deck = []
 
 # create a instance of class and name is a placeholder for current module
 app = Flask(__name__)
@@ -24,12 +26,17 @@ client.CardDeck.blacklist_tokens.create_index(
     "createdAt", expireAfterSeconds=86400)
 
 
+@io.on('bid')
+def bid(data):
+    emit('bid', data, broadcast=True)
+
+
 @io.on('join')
 def join(data):
     users = client.CardDeck.users
     not_authenticated_users = users.find({'authenticated': False})
-    if str(dumps(not_authenticated_users)) == '[]':
-        emit('start_game', broadcast=True)
+    # if str(dumps(not_authenticated_users)) == '[]':
+    emit('start_game', broadcast=True)
     emit('join', data, broadcast=True)
 
 
@@ -69,7 +76,7 @@ def login():
 
     auth_token = util.encode_auth_token(str(user['_id']))
     print(auth_token)
-    users.update_one(user, {'$set': {'authenticated': True}})
+    # users.update_one(user, {'$set': {'authenticated': True}})
     return jsonify({'token': auth_token.decode(), 'name': user['name']})
 
 # request body: {email: string, token: string}
@@ -79,8 +86,8 @@ def logout():
     users = client.CardDeck.users
     data = request.get_json(force=True)
     user = users.find_one({'email': data['email']})
-    if not user['authenticated']:
-        return response('NOT_AUTHENTICATED', 400)
+    # if not user['authenticated']:
+    #     return response('NOT_AUTHENTICATED', 400)
     if not data.get('token'):
         return response('NO_TOKEN_PROVIDED', 403)
 
@@ -114,6 +121,25 @@ def change_status():
     if user['authenticated']:
         return response('ALREADY_AUTHENTICATED', 400)
     users.update_one(user, {'$set': {'authenticated': data['authenticated']}})
+    return jsonify({'message': 'success'})
+
+
+@app.route('/cards', methods=['GET'])
+def cards():
+    global deck
+    if deck == []:
+        deck = list(client.CardDeck.card_deck.find())
+        random.shuffle(deck)
+    cards = deck[-10:]
+    deck = deck[:-10]
+    return dumps(cards)
+
+
+@app.route('/reset-cards', methods=['POST'])
+def post_cards():
+    global deck
+    deck = list(client.CardDeck.card_deck.find())
+    random.shuffle(deck)
     return jsonify({'message': 'success'})
 
 

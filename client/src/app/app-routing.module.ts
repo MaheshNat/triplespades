@@ -6,6 +6,7 @@ import { GameComponent } from './game/game.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
+import { RecipeComponent } from './recipe/recipe.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
     path: 'waiting-room',
     component: WaitingRoomComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'recipes',
+    component: RecipeComponent,
   },
   {
     path: 'game',

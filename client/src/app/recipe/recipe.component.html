@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div *ngIf="!isLoading" style="margin-top: 2em; margin-right: 2em;">
+      <h2>Recipes</h2>
+      <hr />
+
+      <div
+        *ngFor="let recipe of recipes | async"
+        class="card"
+        style="margin-bottom: 1em;"
+      >
+        <div class="card-body">
+          <h5 class="card-name">{{ recipe.name }}</h5>
+          <p class="card-text">{{ recipe.description }}</p>
+          <button
+            class="btn btn-outline-danger"
+            (click)="deleteRecipe(recipe._id.$oid)"
+            style="margin-right: 1em;"
+          >
+            Delete Recipe
+          </button>
+          <button
+            class="btn btn-outline-success"
+            (click)="onEditRecipe(recipe)"
+          >
+            Edit Recipe
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <app-spinner
+      *ngIf="isLoading"
+      class="text-center"
+      style="margin: 2em 0em;"
+    ></app-spinner>
+
+    <!-- Adding Form -->
+    <div class="col-xs-12 col-md-6" *ngIf="!editing">
+      <form
+        #authForm="ngForm"
+        (ngSubmit)="onSubmitForm(authForm)"
+        class="shadow form"
+      >
+        <h2>Add Recipe</h2>
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          ngModel
+          required
+        />
+        <label for="description">Description</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          class="form-control"
+          ngModel
+          required
+        />
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!authForm.valid"
+          [ngStyle]="{ cursor: !authForm.valid ? 'not-allowed' : 'default' }"
+          style="margin-top: 2em;"
+        >
+          Add Recipe
+        </button>
+      </form>
+    </div>
+
+    <!-- Editing Form -->
+    <div class="col-xs-12 col-md-6" *ngIf="editing">
+      <form
+        #authForm="ngForm"
+        (ngSubmit)="onEdit(authForm)"
+        class="shadow form"
+      >
+        <h2>Edit Recipe</h2>
+        <label for="name">New Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          [ngModel]="editingRecipe.name"
+          required
+        />
+        <label for="description">New Description</label>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          class="form-control"
+          [ngModel]="editingRecipe.description"
+          required
+        />
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!authForm.valid"
+          [ngStyle]="{ cursor: !authForm.valid ? 'not-allowed' : 'default' }"
+          style="margin-top: 2em; margin-right: 1em;"
+        >
+          Edit Recipe
+        </button>
+        <button
+          class="btn btn-danger"
+          style="margin-top: 2em;"
+          (click)="editing = false"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
