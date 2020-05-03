@@ -7,7 +7,7 @@
       #authForm="ngForm"
       (ngSubmit)="onSubmit(authForm)"
       *ngIf="!isLoading"
-      class="shadow"
+      class="shadow login"
     >
       <h3 class="text-center">Login</h3>
       <div class="form-group">
@@ -31,7 +31,7 @@
           class="form-control"
           ngModel
           required
-          minLength="6"
+          minlength="6"
         />
       </div>
       <div>
@@ -39,12 +39,13 @@
           class="btn btn-primary"
           type="submit"
           [disabled]="!authForm.valid"
+          [ngStyle]="{ cursor: !authForm.valid ? 'not-allowed' : 'default' }"
         >
           Login
         </button>
       </div>
     </form>
-    <div class="alert alert-danger error" *ngIf="error">
+    <div class="alert alert-danger error" *ngIf="error && !isLoading">
       {{ error }}
     </div>
   </div>

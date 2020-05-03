@@ -1,0 +1,12 @@
+<ul class="list-group" style="margin-top: 2em;">
+  <li
+    class="list-group-item"
+    *ngFor="let player of players"
+    [ngClass]="{
+      'list-group-item-success': player.authenticated,
+      'list-group-item-danger': !player.authenticated
+    }"
+  >
+    {{ player.name }} is {{ player.authenticated ? 'online' : 'offline' }}
+  </li>
+</ul>

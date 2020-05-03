@@ -16,10 +16,22 @@
   </button>
 
   <div class="collapse navbar-collapse" id="nav" [ngbCollapse]="isCollapsed">
-    <ul class="navbar-nav mr-auto">
+    <ul class="nav navbar-nav mr-auto">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="!isAuthenticated"
+          routerLinkActive="active"
+          routerLink="/auth"
+          >Login</a
+        >
+      </li>
       <li class="nav-item" *ngIf="isAuthenticated">
-        <a class="nav-link" routerLinkActive="active" routerLink="/game"
-          >Start Game</a
+        <a
+          class="nav-link"
+          routerLinkActive="active"
+          [routerLink]="game.started ? '/game' : '/waiting-room'"
+          >{{ game.started ? 'Game' : 'Waiting Room' }}</a
         >
       </li>
       <li class="nav-item">
@@ -27,10 +39,10 @@
           >Score Board</a
         >
       </li>
-      <li class="nav-item" *ngIf="!isAuthenticated">
-        <a class="nav-link" routerLinkActive="active" routerLink="/auth"
-          >Login</a
-        >
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-link" *ngIf="isAuthenticated">
+        <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
       </li>
     </ul>
   </div>

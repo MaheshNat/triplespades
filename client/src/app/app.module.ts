@@ -10,13 +10,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
-import { SpinnerComponent } from './spinner/spinner.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HeaderComponent } from './header/header.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
     GameComponent,
     ScoreboardComponent,
     HeaderComponent,
+    WaitingRoomComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +37,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HttpClientModule,
     NgbCollapseModule,
+    SharedModule,
   ],
   providers: [
     {
