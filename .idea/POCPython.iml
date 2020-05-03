@@ -7,8 +7,9 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.8 (venv) (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (venv)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Python 3.7 (data-query-service) interpreter library" level="application" />
+    <orderEntry type="module" module-name="untitled" />
   </component>
 </module>

@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="12d50262-f6aa-4fc1-967f-87a445e569e7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/includes/_navbar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/POCPython.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/POCPython.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +54,7 @@
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -136,6 +134,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state width="1259" height="230" key="GridCell.Tab.0.bottom" timestamp="1587159596208">
       <screen x="0" y="23" width="1280" height="730" />
@@ -161,6 +162,10 @@
     <state width="1259" height="230" key="GridCell.Tab.0.right/0.23.1280.730@0.23.1280.730" timestamp="1587159596208" />
     <state width="1259" height="231" key="GridCell.Tab.0.right/0.23.1280.732@0.23.1280.732" timestamp="1587158907180" />
     <state width="1259" height="232" key="GridCell.Tab.0.right/0.23.1280.733@0.23.1280.733" timestamp="1587158382860" />
+    <state x="229" y="67" key="SettingsEditor" timestamp="1587433275573">
+      <screen x="0" y="23" width="1440" height="827" />
+    </state>
+    <state x="229" y="67" key="SettingsEditor/0.23.1440.827@0.23.1440.827" timestamp="1587433275573" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
