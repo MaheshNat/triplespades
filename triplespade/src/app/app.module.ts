@@ -1,22 +1,36 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
-import {FormsModule,ReactiveFormsModule}from '@angular/forms'
-import {HttpClientModule} from '@angular/common/http'
+import { FormsModule,ReactiveFormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
+import { AuthguardGuard } from './auth.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { GameComponent } from './game/game.component';
+
+const appRoutes:Routes = [
+  {
+    path: '',
+    component: LoginComponent
+  },
+  {
+    path: 'Game',
+    canActivate: [AuthguardGuard],
+    component: GameComponent
+  }
+]
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent, LoginComponent, GameComponent],
   imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    AppRoutingModule,
+  RouterModule.forRoot(appRoutes),
+  BrowserModule,
+  FormsModule,
+  ReactiveFormsModule
+
   ],
-  providers: [],
+  providers: [AuthguardGuard],
+  bootstrap: [AppComponent]
 })
+
 export class AppModule { }

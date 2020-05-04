@@ -1,28 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder,FormGroup,Validators} from '@angular/forms'
+import { Router } from '@angular/router';
+import{ UserService } from '../user.service'
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-form',
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class LoginComponent implements OnInit {
-  title='login'
-  loginform:any
 
-  constructor(private formbuilder : FormBuilder) {
-    this.loginform=this.formbuilder.group({
-      email : ['',[Validators.required]],
-      password : ['',[Validators.required,Validators.minLength (6)]]
-    })
-    console.log(this.loginform)
-   }
-   saveUser(){
-    if (this.loginform.dirty && this.loginform.valid){
-      alert('email : $(this.loginform.value.email) pass : $()this.loginform.value.password')
-    }
+  constructor(private router:Router, private user:UserService) { }
+
+  ngOnInit() {
+    console.log('hit');
   }
-  ngOnInit(): void {
+
+  loginUser(e) {
+   e.preventDefault();
+   console.log(e);
+   var username = e.target.elements[0].value;
+   var password = e.target.elements[1].value;
+   
+   if(username == 'admin' && password == '12345!') {
+      this.user.setUserLoggedIn();
+    this.router.navigate(['game']);
+   }
   }
 
 }
