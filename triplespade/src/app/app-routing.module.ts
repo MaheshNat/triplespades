@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component'
 const routes: Routes = [
   {
     path: '',
+    pathMatch:'Full',
     component: HomeComponent,
   },
   {
