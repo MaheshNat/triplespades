@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 import{ UserService } from '../user.service'
 
 @Component({
@@ -7,6 +7,7 @@ import{ UserService } from '../user.service'
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
+
 export class LoginComponent implements OnInit {
 
   constructor(private router:Router, private user:UserService) { }
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
    
    if(username == 'admin' && password == '12345!') {
       this.user.setUserLoggedIn();
-    this.router.navigate(['game']);
+    this.router.navigate(['Game']);
    }
   }
 

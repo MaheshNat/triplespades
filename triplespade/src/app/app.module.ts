@@ -6,10 +6,15 @@ import { LoginComponent } from './login/login.component';
 import { AuthguardGuard } from './auth.guard';
 import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './game/game.component';
+import { HomeComponent } from './home/home.component'
 
 const appRoutes:Routes = [
+  
   {
     path: '',
+    component: HomeComponent
+  },{
+    path: 'Login',
     component: LoginComponent
   },
   {
@@ -21,7 +26,12 @@ const appRoutes:Routes = [
 
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, GameComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    GameComponent,
+    HomeComponent
+  ],
   imports: [
   RouterModule.forRoot(appRoutes),
   BrowserModule,
