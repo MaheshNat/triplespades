@@ -1,3 +1,13 @@
+.center {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+body{
+    border: 0ex;
+}
 h1{
     text-align: center;
 }
