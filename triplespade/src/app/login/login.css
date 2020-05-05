@@ -1,6 +1,8 @@
-p{
+h2{
     text-align: center;
+    padding-top: 10%;
+    text-decoration: underline;
 }
 form{
-    text-align: center;
+   text-align: center
 }

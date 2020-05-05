@@ -6,7 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthguardGuard } from './auth.guard';
 import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './game/game.component';
-import { HomeComponent } from './home/home.component'
+import { HomeComponent } from './home/home.component';
+import{ScoreboardComponent } from'./scoreboard/scoreboard.component';
 
 const appRoutes:Routes = [
   
@@ -16,6 +17,10 @@ const appRoutes:Routes = [
   },{
     path: 'Login',
     component: LoginComponent
+  },
+  {
+    path:'Scoreboard',
+    component:ScoreboardComponent
   },
   {
     path: 'Game',
@@ -30,7 +35,8 @@ const appRoutes:Routes = [
     AppComponent,
     LoginComponent,
     GameComponent,
-    HomeComponent
+    HomeComponent,
+    ScoreboardComponent
   ],
   imports: [
   RouterModule.forRoot(appRoutes),
