@@ -1,7 +1,3 @@
-html{
-    padding: 100%;
-    margin: 100%;
-}
 .center {
     margin: 0;
     position: absolute;
@@ -21,6 +17,5 @@ p{
     font-size: large;
 }
 body{
-    background-image: url("https://image.freepik.com/free-photo/magician-s-hand-holding-fanned-playing-cards-against-black-background_23-2147880783.jpg"
-    );
+    padding: 9.3%;
 }

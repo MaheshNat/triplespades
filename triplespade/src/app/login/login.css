@@ -1,8 +1,10 @@
 h2{
     text-align: center;
-    padding-top: 10%;
     text-decoration: underline;
 }
 form{
    text-align: center
+}
+body{
+    padding: 13.1%;
 }
