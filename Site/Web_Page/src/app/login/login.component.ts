@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,RouterModule } from '@angular/router';
 import{ UserService } from '../user.service'
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+import { login } from './login.module'
 
 @Component({
   selector: 'app-login-form',
@@ -9,23 +12,28 @@ import{ UserService } from '../user.service'
 })
 
 export class LoginComponent implements OnInit {
-
-  constructor(private router:Router, private user:UserService) { }
-
+  constructor(private router:Router, private user:UserService, private http: HttpClient) { }
+    Login : any;
   ngOnInit() {
-    console.log('hit');
+    this.loginUser
   }
 
-  loginUser(e) {
-   e.preventDefault();
-   console.log(e);
-   var username = e.target.elements[0].value;
-   var password = e.target.elements[1].value;
-   
-   if(username == 'admin' && password == '12345!') {
-      this.user.setUserLoggedIn();
-    this.router.navigate(['Game']);
+  loginUser() {
+    this.Login = this.http.get<login[]>('http://127.0.0.1:5000/login');
+    this.Login.subscribe((resData) => {
+      console.log(resData);
+    });
+  }
+  onSubmitForm(insertForm: NgForm) {
+    this.http
+      .post<{ message: string }>('http://127.0.0.1:5000/login', {
+        name: insertForm.value.name,
+        description: insertForm.value.description,
+      })
+      .subscribe((response) => {
+        console.log(response);
+        this.loginUser();
+      });
+  } 
+
    }
-  }
-
-}
