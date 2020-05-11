@@ -1,15 +1,17 @@
-from flask import Flask, jsonify, request, make_response
-import mongoengine as mongoDB
 import bcrypt
+import mongoengine as mongoDB
+from flask import Flask, jsonify, request, make_response
 from flask_bcrypt import Bcrypt
-
+from flask_cors import CORS
+from pymongo import MongoClient
 
 app = Flask(__name__)
 DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
 mongoDB.connect("CardDeck", host=DB_URI)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-
+CORS(app)
+users=MongoClient(DB_URI)
 
 class users(mongoDB.Document):
     name = mongoDB.StringField(required=False)
@@ -47,6 +49,17 @@ def login():
     return response('Success', 200)
 
 
+@app.route('/logout', methods=['POST'])
+def logout():
+    data = request.get_json(force=True)
+    user = users.objects(email=data.get('email')).first()
+    if not users.authenticated:
+        return response('Error Cant logout, not logged in', 400)
+    user.authenticated = False
+    user.save()
+    return response('Successful', 200)
+
+
 def response(message, status_code):
     resp = make_response(message)
     resp.status_code = status_code
@@ -56,5 +69,5 @@ def response(message, status_code):
 
 # if condition to check name is equal to main to generate a script
 if __name__ == '__main__':
-    # debug=True is used when we ddnt saved changes by need output to
+    # debug=True is used when we didn't saved changes by need output to
     app.run(debug=True)

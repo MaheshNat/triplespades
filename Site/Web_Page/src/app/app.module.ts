@@ -8,6 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from './game/game.component';
 import { HomeComponent } from './home/home.component';
 import{ScoreboardComponent } from'./scoreboard/scoreboard.component';
+import { TestComponent } from './test/test.component';
 
 const appRoutes:Routes = [
   
@@ -36,7 +37,8 @@ const appRoutes:Routes = [
     LoginComponent,
     GameComponent,
     HomeComponent,
-    ScoreboardComponent
+    ScoreboardComponent,
+    TestComponent
   ],
   imports: [
   RouterModule.forRoot(appRoutes),
