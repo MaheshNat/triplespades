@@ -2,6 +2,9 @@
   <dictionary name="Admin">
     <words>
       <w>bcrypt</w>
+      <w>crds</w>
+      <w>helly</w>
+      <w>plyr</w>
     </words>
   </dictionary>
 </component>

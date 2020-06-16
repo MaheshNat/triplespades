@@ -1,5 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import {UserService} from '../user.service';
 
 @Component({
   selector: 'app-game',
@@ -10,11 +9,9 @@ export class GameComponent implements OnInit {
   
   name = 'anony';
 
-  constructor(private user: UserService) { }
+  constructor() { }
 
   ngOnInit() {
-   this.name = this.user.username;
-   console.log('Is user logged in? ', this.user.getUserLoggedIn())
   }
 
 }

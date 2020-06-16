@@ -4,6 +4,8 @@ from flask import Flask, jsonify, request, make_response
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from pymongo import MongoClient
+from flask_socketio import SocketIO, send, emit
+import random
 
 app = Flask(__name__)
 DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
@@ -11,7 +13,8 @@ mongoDB.connect("CardDeck", host=DB_URI)
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 CORS(app)
-users=MongoClient(DB_URI)
+users = MongoClient(DB_URI)
+
 
 class users(mongoDB.Document):
     name = mongoDB.StringField(required=False)
@@ -53,11 +56,26 @@ def login():
 def logout():
     data = request.get_json(force=True)
     user = users.objects(email=data.get('email')).first()
-    if not users.authenticated:
+    if not user.authenticated:
         return response('Error Cant logout, not logged in', 400)
     user.authenticated = False
     user.save()
     return response('Successful', 200)
+
+
+@app.route('/waiting-room', methods=['GET'])
+def waiting_room():
+    data = request.get_json(force=True)
+    user = users.objects(name=data).first()
+    randouser = (random.choice(user))
+    if not user.authenticated:
+        return response(user.name + "is Offline", 200)
+    else:
+        return response(user.name + "is Online", 200)
+
+output = waiting_room
+while output != 0:
+    waiting_room()
 
 
 def response(message, status_code):
