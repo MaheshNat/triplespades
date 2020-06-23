@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../auth/user.model';
 import { AuthService } from '../auth/auth.service';
 import { Card } from './card.model';
+import { GameService } from './game.service';
+import { Game } from './game.model';
 
 @Component({
   selector: 'app-game',
@@ -12,17 +14,19 @@ import { Card } from './card.model';
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
-  players: Player[] = [];
   cards: Card[] = [];
+  game: Game;
   user: User;
-
-  highestBidPlayer = new Player('None', true, 125);
+  isLoading: boolean;
   bidValue = 125;
+  time = 30;
+  selection = false;
 
   constructor(
     private socketService: SocketService,
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private gameService: GameService
   ) {}
 
   ngOnInit() {
@@ -31,24 +35,30 @@ export class GameComponent implements OnInit {
       console.log(this.user);
     });
 
-    this.http
-      .get<Player[]>('http://127.0.0.1:5000/users')
-      .subscribe((players) => {
-        this.players = players;
-      });
+    this.gameService.game.subscribe((game) => {
+      this.game = game;
+    });
 
+    this.isLoading = true;
     this.http.get<Card[]>('http://127.0.0.1:5000/cards').subscribe((cards) => {
       this.cards = cards;
+      this.isLoading = false;
       console.log(cards);
     });
 
     this.socketService.listen('bid').subscribe((data: Player) => {
-      this.players.forEach((player) => (player.highestBidder = false));
-      let index = this.players.findIndex((player) => player.name === data.name);
-      this.players[index].highestBidder = true;
-      this.players[index].bid = data.bid;
-      this.highestBidPlayer = new Player(data.name, true, data.bid, true);
+      this.gameService.game.next(
+        new Game(new Player(data.name, true, data.bid, true), true)
+      );
     });
+
+    this.socketService.listen('start_selection').subscribe(() => {
+      this.selection = true;
+    });
+
+    setInterval(() => {
+      if (this.time > 0) this.time--;
+    }, 1000);
   }
 
   onBid() {

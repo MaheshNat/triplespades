@@ -19,17 +19,11 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private gameService: GameService,
-    private router: Router,
     private socketService: SocketService
   ) {}
 
   async ngOnInit() {
     // this.authService.autoLogin();
-
-    this.socketSub = this.socketService.listen('start_game').subscribe(() => {
-      this.router.navigate(['/game']);
-      this.gameService.startGame();
-    });
 
     this.userSub = this.authService.user.subscribe((user) => {
       this.user = user;

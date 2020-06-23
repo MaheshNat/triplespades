@@ -1,3 +1,5 @@
+import { Player } from '../shared/player.model';
+
 export class Game {
-  constructor(public started?: boolean) {}
+  constructor(public highestBidPlayer: Player, public started?: boolean) {}
 }

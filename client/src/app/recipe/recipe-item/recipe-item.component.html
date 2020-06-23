@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-name">{{ name }}</h5>
+    <p class="card-text">{{ description }}</p>
+    <button
+      class="btn btn-outline-danger"
+      (click)="deleteRecipe()"
+      style="margin-right: 1em;"
+    >
+      Delete Recipe
+    </button>
+    <button class="btn btn-outline-success" (click)="editRecipe()">
+      Edit Recipe
+    </button>
+  </div>
+</div>

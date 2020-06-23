@@ -3,6 +3,8 @@ import { SocketService } from '../socket.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Player } from '../shared/player.model';
+import { Router } from '@angular/router';
+import { GameService } from '../game/game.service';
 
 @Component({
   selector: 'app-waiting-room',
@@ -12,7 +14,12 @@ import { Player } from '../shared/player.model';
 export class WaitingRoomComponent implements OnInit, OnDestroy {
   players: Player[] = [];
 
-  constructor(private socketService: SocketService, private http: HttpClient) {}
+  constructor(
+    private socketService: SocketService,
+    private gameService: GameService,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.http
@@ -36,6 +43,13 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
         this.players.findIndex((_player) => _player.name === player.name)
       ].authenticated = false;
     });
+
+    this.socketService
+      .listen('start_game')
+      .subscribe((defaultBidder: string) => {
+        this.router.navigate(['/game']);
+        this.gameService.startGame(defaultBidder);
+      });
   }
 
   ngOnDestroy() {}

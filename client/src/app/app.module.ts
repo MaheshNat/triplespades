@@ -21,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
 import { RecipeComponent } from './recipe/recipe.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RecipeItemComponent } from './recipe/recipe-item/recipe-item.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     WaitingRoomComponent,
     RecipeComponent,
+    RecipeItemComponent,
   ],
   imports: [
     BrowserModule,

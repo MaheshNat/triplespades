@@ -3,29 +3,14 @@
     <div *ngIf="!isLoading" style="margin-top: 2em; margin-right: 2em;">
       <h2>Recipes</h2>
       <hr />
-
-      <div
-        *ngFor="let recipe of recipes | async"
-        class="card"
-        style="margin-bottom: 1em;"
-      >
-        <div class="card-body">
-          <h5 class="card-name">{{ recipe.name }}</h5>
-          <p class="card-text">{{ recipe.description }}</p>
-          <button
-            class="btn btn-outline-danger"
-            (click)="deleteRecipe(recipe._id.$oid)"
-            style="margin-right: 1em;"
-          >
-            Delete Recipe
-          </button>
-          <button
-            class="btn btn-outline-success"
-            (click)="onEditRecipe(recipe)"
-          >
-            Edit Recipe
-          </button>
-        </div>
+      <div *ngFor="let recipe of recipes | async" style="margin-bottom: 1em;">
+        <app-recipe-item
+          [name]="recipe.name"
+          [description]="recipe.description"
+          [id]="recipe._id.$oid"
+          (edit)="onEditRecipe(recipe)"
+          (delete)="deleteRecipe(recipe._id.$oid)"
+        ></app-recipe-item>
       </div>
     </div>
 

@@ -1,12 +1,19 @@
-<div class="container">
+<div class="container" *ngIf="!selection">
+  <div
+    class="row justify-content-center jumbotron"
+    style="margin-top: 2em; padding: 2em;"
+  >
+    <h1>Seconds left to bid: {{ time }}</h1>
+  </div>
   <div
     class="row justify-content-center jumbotron"
     style="margin-top: 2em; padding: 2em;"
   >
     <h2>
-      The current highest bidder is <strong>{{ highestBidPlayer.name }}</strong>
+      The current highest bidder is
+      <strong>{{ game.highestBidPlayer.name }}</strong>
       with a bid of
-      <strong>{{ highestBidPlayer.bid }}</strong>
+      <strong>{{ game.highestBidPlayer.bid }}</strong>
     </h2>
   </div>
   <div class="row justify-content-center" style="margin-top: 1em;">
@@ -41,9 +48,10 @@
       <button
         class="btn btn-success"
         (click)="onBid()"
-        [disabled]="bidValue <= highestBidPlayer.bid"
+        [disabled]="bidValue <= game.highestBidPlayer.bid"
         [ngStyle]="{
-          cursor: bidValue <= highestBidPlayer.bid ? 'not-allowed' : 'default'
+          cursor:
+            bidValue <= game.highestBidPlayer.bid ? 'not-allowed' : 'default'
         }"
       >
         Bid
@@ -84,4 +92,11 @@
       />
     </div>
   </div>
+</div>
+<div class="container" *ngIf="selection">
+  <h1>
+    Currently in the selection process, where you
+    {{ user.name === game.highestBidPlayer.name ? 'are' : 'are not' }} the
+    highest bidder
+  </h1>
 </div>
