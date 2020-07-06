@@ -15,7 +15,11 @@ import { HomeComponent } from './home/home.component';
 import { GameComponent } from './game/game.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { HeaderComponent } from './header/header.component';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbModal,
+  NgbModalModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
 import { SharedModule } from './shared/shared.module';
 import { RecipeComponent } from './recipe/recipe.component';
@@ -44,6 +48,7 @@ import { RecipeItemComponent } from './recipe/recipe-item/recipe-item.component'
     SharedModule,
     MatSliderModule,
     BrowserAnimationsModule,
+    NgbModalModule,
   ],
   providers: [
     {

@@ -28,6 +28,17 @@ client.CardDeck.blacklist_tokens.create_index(
     "createdAt", expireAfterSeconds=86400)
 
 
+@io.on("selection_end")
+def selection_end(data):
+    emit("selection_end", data, broadcast=True)
+
+
+@io.on('max_bid')
+def max_bid(data):
+    emit('bid', data, broadcast=True)
+    emit('start_selection', broadcast=True)
+
+
 @io.on('bid')
 def bid(data):
     emit('bid', data, broadcast=True)

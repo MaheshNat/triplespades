@@ -7,6 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { Card } from './card.model';
 import { GameService } from './game.service';
 import { Game } from './game.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-game',
@@ -18,18 +19,86 @@ export class GameComponent implements OnInit {
   game: Game;
   user: User;
   isLoading: boolean;
+  gameMode = 'BIDDING';
   bidValue = 125;
   time = 30;
-  selection = false;
+  suits = [];
+  trumpSuit = '';
+  partnerCard = '';
+  trumpSelection = true;
+  allCards = [
+    '2C',
+    '3C',
+    '4C',
+    '5C',
+    '6C',
+    '7C',
+    '8C',
+    '9C',
+    '10C',
+    'JC',
+    'QC',
+    'KC',
+    'AC',
+    '2D',
+    '3D',
+    '4D',
+    '5D',
+    '6D',
+    '7D',
+    '8D',
+    '9D',
+    '10D',
+    'JD',
+    'QD',
+    'KD',
+    'AD',
+    '2H',
+    '3H',
+    '4H',
+    '5H',
+    '6H',
+    '7H',
+    '8H',
+    '9H',
+    '10H',
+    'JH',
+    'QH',
+    'KH',
+    'AH',
+    '2S',
+    '3S',
+    '4S',
+    '5S',
+    '6S',
+    '7S',
+    '8S',
+    '9S',
+    '10S',
+    'JS',
+    'QS',
+    'KS',
+  ];
 
   constructor(
     private socketService: SocketService,
     private http: HttpClient,
     private authService: AuthService,
-    private gameService: GameService
+    private gameService: GameService,
+    private modalService: NgbModal
   ) {}
 
+  open(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
   ngOnInit() {
+    for (let suit of ['AC', 'AD', 'AH', 'AS'])
+      this.suits.push('../../assets/images/playing_cards/' + suit + '.png');
+    for (let i = 0; i < this.allCards.length; i++)
+      this.allCards[
+        i
+      ] = `../../assets/images/playing_cards/${this.allCards[i]}.png`;
     this.authService.user.subscribe((user) => {
       this.user = user;
       console.log(this.user);
@@ -53,7 +122,14 @@ export class GameComponent implements OnInit {
     });
 
     this.socketService.listen('start_selection').subscribe(() => {
-      this.selection = true;
+      this.gameMode = 'SELECTION';
+    });
+
+    this.socketService.listen('selection_end').subscribe((data: any) => {
+      this.trumpSuit = data.trumpSuit;
+      this.partnerCard = data.partnerCard;
+      this.gameMode = 'PLAYING';
+      console.log(this.trumpSuit, this.partnerCard);
     });
 
     setInterval(() => {
@@ -62,10 +138,16 @@ export class GameComponent implements OnInit {
   }
 
   onBid() {
-    this.socketService.emit('bid', {
-      name: this.user.name,
-      bid: this.bidValue,
-    });
+    if (this.bidValue === 250)
+      this.socketService.emit('max_bid', {
+        name: this.user.name,
+        bid: 250,
+      });
+    else
+      this.socketService.emit('bid', {
+        name: this.user.name,
+        bid: this.bidValue,
+      });
   }
 
   incrementBidValue() {
@@ -80,5 +162,13 @@ export class GameComponent implements OnInit {
     return `assets/images/playing_cards/${
       card.name.toUpperCase() + card.suit.charAt(0).toUpperCase()
     }.png`;
+  }
+
+  onSelect(partnerCard: string) {
+    this.partnerCard = partnerCard;
+    this.socketService.emit('selection_end', {
+      trumpSuit: this.trumpSuit,
+      partnerCard: partnerCard.substring(34, 36),
+    });
   }
 }
