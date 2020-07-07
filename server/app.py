@@ -10,12 +10,22 @@ import bcrypt
 import util
 import datetime
 from flask_bcrypt import Bcrypt
-# from threading import Timer
+from threading import Timer
 from time import sleep
+
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
+
 
 DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
 BCRYPT_LOG_ROUNDS = 4
-deck = []
+timer = None
+selection_started = False
+players_list = []
 
 # create a instance of class and name is a placeholder for current module
 app = Flask(__name__)
@@ -25,18 +35,44 @@ bcrypt = Bcrypt(app)
 CORS(app)
 
 client.CardDeck.blacklist_tokens.create_index(
-    "createdAt", expireAfterSeconds=86400)
+    'createdAt', expireAfterSeconds=86400)
 
 
-@io.on("selection_end")
-def selection_end(data):
-    emit("selection_end", data, broadcast=True)
+@io.on('play_card')
+def play_card(data):
+    emit('play_card', data, broadcast=True)
+
+
+@io.on('start_playing')
+def start_playing(data):
+    emit('start_playing', data, broadcast=True)
+
+
+@io.on('trump_selection')
+def trump_selection(data):
+    emit('trump_selection', data, broadcast=True)
+
+
+@io.on('partner_selection')
+def partner_selection(data):
+    emit('partner_selection', data, broadcast=True)
 
 
 @io.on('max_bid')
 def max_bid(data):
     emit('bid', data, broadcast=True)
     emit('start_selection', broadcast=True)
+
+
+@io.on('start_selection')
+def start_selection(data):
+    global selection_started
+    print(selection_started)
+    if selection_started:
+        return
+    else:
+        emit('start_selection', broadcast=True)
+        selection_started = True
 
 
 @io.on('bid')
@@ -46,21 +82,28 @@ def bid(data):
 
 @io.on('join')
 def join(data):
+    global players_list
+    players_list.append(data['name'])
     users = client.CardDeck.users
     not_authenticated_users = users.find({'authenticated': False})
-    if len(list(not_authenticated_users)) == 0:
-        emit('start_game', default_bidder(), broadcast=True)
-        sleep(30.0)
-        emit('start_selection', broadcast=True)
-        # Timer(10.0, emit, ['start_selection'], {
-        #     'broadcast': True}).start()
-
     emit('join', data, broadcast=True)
+    if len(list(not_authenticated_users)) == 3:
+        deck = list(client.CardDeck.card_deck.find({}, {'_id': False}))
+        random.shuffle(deck)
+        emit('start_game', {'default_bidder': random.choice(players_list),
+                            'cards': [deck[:10], deck[10:20], deck[20:30], deck[30:40], deck[40:50]]}, broadcast=True)
 
 
 @io.on('leave')
 def leave(data):
+    global players_list
+    players_list.remove(data['name'])
     emit('leave', data, broadcast=True)
+
+
+@io.on('end_game')
+def end_game(data):
+    emit('end_game', broadcast=True)
 
 
 def default_bidder():
@@ -73,6 +116,17 @@ def default_bidder():
                      '$set': {'default_bidder': False}})
     users.update_one(default_bidder, {'$set': {'default_bidder': True}})
     return default_bidder['name']
+
+
+@app.route('/players', methods=['GET'])
+def players():
+    global players_list
+    return jsonify(players_list)
+
+
+@app.route('/cards', methods=['GET'])
+def cards():
+    return dumps(list(client.CardDeck.card_deck.find()))
 
 
 # request body: {email: string, name: string, password: string}
@@ -155,25 +209,6 @@ def change_status():
     return jsonify({'message': 'success'})
 
 
-@app.route('/cards', methods=['GET'])
-def cards():
-    global deck
-    if deck == []:
-        deck = list(client.CardDeck.card_deck.find())
-        random.shuffle(deck)
-    cards = deck[-10:]
-    deck = deck[:-10]
-    return dumps(cards)
-
-
-@app.route('/reset-cards', methods=['POST'])
-def post_cards():
-    global deck
-    deck = list(client.CardDeck.card_deck.find())
-    random.shuffle(deck)
-    return jsonify({'message': 'success'})
-
-
 def response(message, status_code):
     resp = make_response(message)
     resp.status_code = status_code
@@ -183,6 +218,7 @@ def response(message, status_code):
 
 # if condition to check name is equal to main to generate a script
 if __name__ == '__main__':
+    # selection_started = False
     # debug=True is used when we ddnt saved changes by need output to
     app.run(debug=True)
     # running the socketio server
