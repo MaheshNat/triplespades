@@ -38,6 +38,11 @@ client.CardDeck.blacklist_tokens.create_index(
     'createdAt', expireAfterSeconds=86400)
 
 
+@io.on('hand_end')
+def hand_end(card):
+    emit('hand_end', card, broadcast=True)
+
+
 @io.on('play_card')
 def play_card(data):
     emit('play_card', data, broadcast=True)

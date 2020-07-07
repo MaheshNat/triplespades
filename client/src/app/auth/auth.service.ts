@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../socket.service';
 import { Player } from '../shared/player.model';
+import { GameService } from '../game/game.service';
 
 @Injectable({
   providedIn: 'root',
@@ -108,6 +109,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((message) => {
+          this.socketService.emit('end_game', null);
           const expirationDate = new Date(
             new Date().getTime() + this.EXPIRES_IN * 1000
           );
