@@ -10,7 +10,7 @@ export class Game {
     public players?: Player[],
     public turn?: number,
     public hand: Card[] = [],
-    public collectedCards?: Card[],
+    public collectedCards: Card[] = [],
     public trumpSuit?: string,
     public partnerCard?: Card,
     public time: number = 30
@@ -22,4 +22,5 @@ export enum GameMode {
   TRUMP_SELECTION,
   PARTNER_SELECTION,
   PLAYING,
+  END,
 }

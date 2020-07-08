@@ -159,6 +159,10 @@
     <!-- PLAYING -->
     <div *ngSwitchCase="gameMode.PLAYING">
       <div class="jumbotron text-center" style="margin-top: 2em;">
+        <h3>
+          Trump Suit: {{ getSuit(game.trumpSuit) }}, Partner Card:
+          {{ game.partnerCard.rank + ' of ' + game.partnerCard.suit }}
+        </h3>
         <h1>
           Turn: {{ game.players[game.turn].name }}
           <strong>{{
@@ -172,6 +176,16 @@
               : ''
           }}
         </p>
+        <div class="alert alert-danger" *ngIf="wrongSuit">
+          You have a card with the same suit as the first card in the current
+          hand, so you cannot place a card with a different suit that is not the
+          trump.
+        </div>
+        <div class="alert alert-danger" *ngIf="wrongTrump">
+          You have a card with the same suit as the first card in the current
+          hand (which is not the trump suit), so you cannot place a card
+          belonging to the trump suit.
+        </div>
       </div>
       <div class="jumbotron text-center" style="margin-top: 2em;">
         <h1>Hand:</h1>
@@ -187,6 +201,21 @@
           </div>
         </div>
       </div>
+      <div class="jumbotron text-center" style="margin-top: 2em;">
+        <h1>Collected Cards:</h1>
+        <div class="row justify-content-center" style="margin-top: 1em;">
+          <div class="col-xs-2">
+            <img
+              *ngFor="let card of game.collectedCards"
+              class="img-responsive"
+              style="max-width: 100px; margin: 1em;"
+              [src]="getImage(card)"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
     </div>
+    <div *ngSwitchCase="gameMode.END"></div>
   </div>
 </div>

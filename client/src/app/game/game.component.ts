@@ -20,6 +20,8 @@ export class GameComponent implements OnInit {
   bidValue = 125;
   suits = [];
   gameMode = GameMode;
+  wrongSuit = false;
+  wrongTrump = false;
 
   constructor(
     private socketService: SocketService,
@@ -72,11 +74,55 @@ export class GameComponent implements OnInit {
     }.png`;
   }
 
+  getSuit(suit: string) {
+    switch (suit) {
+      case 'H':
+        return 'Hearts';
+      case 'S':
+        return 'Spades';
+      case 'C':
+        return 'Clubs';
+      case 'D':
+        return 'Diamonds';
+    }
+  }
+
   playCard(card: Card) {
     if (this.user.name === this.game.players[this.game.turn].name) {
-      if (this.game.hand.length === this.game.players.length - 1)
-        this.socketService.emit('hand_end', card);
-      else this.socketService.emit('play_card', card);
+      if (
+        this.game.hand.length > 0 &&
+        card.suit !== this.game.hand[0].suit &&
+        this.game.cards.findIndex(
+          (card) => card.suit === this.game.hand[0].suit
+        ) !== -1 &&
+        card.suit.charAt(0) !== this.game.trumpSuit
+      ) {
+        this.wrongTrump = false;
+        this.wrongSuit = true;
+      } else if (
+        this.game.hand.length > 0 &&
+        card.suit.charAt(0) === this.game.trumpSuit &&
+        this.game.cards.findIndex(
+          (card) => card.suit === this.game.hand[0].suit
+        ) !== -1 &&
+        this.game.hand[0].suit.charAt(0) !== this.game.trumpSuit
+      ) {
+        this.wrongSuit = false;
+        this.wrongTrump = true;
+      } else {
+        this.game.cards.splice(
+          this.game.cards.findIndex((_card) => _card === card),
+          1
+        );
+        if (this.game.hand.length === this.game.players.length - 1) {
+          if (this.game.cards.length === 0)
+            this.socketService.emit('playing_end', null);
+          this.socketService.emit('hand_end', card);
+        } else this.socketService.emit('play_card', card);
+        this.gameService.game.next(this.game);
+        this.wrongSuit = false;
+        this.wrongTrump = false;
+      }
     }
   }
 }

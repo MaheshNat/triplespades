@@ -10,7 +10,6 @@ import bcrypt
 import util
 import datetime
 from flask_bcrypt import Bcrypt
-from threading import Timer
 from time import sleep
 
 
@@ -23,7 +22,6 @@ class JSONEncoder(json.JSONEncoder):
 
 DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
 BCRYPT_LOG_ROUNDS = 4
-timer = None
 selection_started = False
 players_list = []
 
@@ -36,6 +34,13 @@ CORS(app)
 
 client.CardDeck.blacklist_tokens.create_index(
     'createdAt', expireAfterSeconds=86400)
+
+
+@io.on('playing_end')
+def playing_end(data):
+    global players_list
+    players_list = []
+    emit('playing_end', data, broadcast=True)
 
 
 @io.on('hand_end')
@@ -89,10 +94,9 @@ def bid(data):
 def join(data):
     global players_list
     players_list.append(data['name'])
-    users = client.CardDeck.users
-    not_authenticated_users = users.find({'authenticated': False})
+    print(players_list)
     emit('join', data, broadcast=True)
-    if len(list(not_authenticated_users)) == 3:
+    if len(list(players_list)) == 3:
         deck = list(client.CardDeck.card_deck.find({}, {'_id': False}))
         random.shuffle(deck)
         emit('start_game', {'default_bidder': random.choice(players_list),
@@ -102,6 +106,7 @@ def join(data):
 @io.on('leave')
 def leave(data):
     global players_list
+    print(data['name'], players_list)
     players_list.remove(data['name'])
     emit('leave', data, broadcast=True)
 
@@ -186,6 +191,9 @@ def logout():
         client.CardDeck.blacklist_tokens.insert_one(
             {'token': data['token'], 'createdAt': datetime.datetime.now()})
         users.update_one(user, {'$set': {'authenticated': False}})
+        global selection_started, players_list
+        selection_started = False
+        players_list = []
         return jsonify({'message': 'success'})
 
 # request body: None
