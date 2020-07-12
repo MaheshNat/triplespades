@@ -74,19 +74,6 @@ export class GameComponent implements OnInit {
     }.png`;
   }
 
-  getSuit(suit: string) {
-    switch (suit) {
-      case 'H':
-        return 'Hearts';
-      case 'S':
-        return 'Spades';
-      case 'C':
-        return 'Clubs';
-      case 'D':
-        return 'Diamonds';
-    }
-  }
-
   playCard(card: Card) {
     if (this.user.name === this.game.players[this.game.turn].name) {
       if (
@@ -115,9 +102,9 @@ export class GameComponent implements OnInit {
           1
         );
         if (this.game.hand.length === this.game.players.length - 1) {
-          if (this.game.cards.length === 0)
-            this.socketService.emit('playing_end', null);
           this.socketService.emit('hand_end', card);
+          if (this.game.cards.length === 8)
+            this.socketService.emit('playing_end', null);
         } else this.socketService.emit('play_card', card);
         this.gameService.game.next(this.game);
         this.wrongSuit = false;

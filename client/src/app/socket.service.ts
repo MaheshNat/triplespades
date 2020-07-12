@@ -24,6 +24,6 @@ export class SocketService {
 
   emit(event: string, data: any) {
     console.log(`event ${event} emitted with data ${data}`);
-    this.socket.emit(event, data);
+    return this.socket.emit(event, data);
   }
 }

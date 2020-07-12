@@ -43,20 +43,15 @@ export class GameService {
     this.game.subscribe((game) => (this.gameValue = game));
 
     this.socketService.listen('bid').subscribe((data: Player) => {
-      this.gameValue.highestBidPlayer = new Player(
-        data.name,
-        true,
-        data.bid,
-        true
-      );
-      this.game.next(this.gameValue);
+      this.gameValue.highestBidPlayer = new Player(data.name, data.bid, true);
+      this.update();
     });
 
     this.socketService.listen('start_selection').subscribe((data) => {
       clearInterval(this.timeInterval);
       clearTimeout(this.selectionStartTimeout);
       this.gameValue.gameMode = GameMode.TRUMP_SELECTION;
-      this.game.next(this.gameValue);
+      this.update();
 
       if (this.user.name === this.gameValue.highestBidPlayer.name) {
         this.trumpSelectionTimeout = setTimeout(() => {
@@ -66,14 +61,8 @@ export class GameService {
           ];
           this.socketService.emit('trump_selection', this.gameValue.trumpSuit);
           this.gameValue.gameMode = GameMode.PARTNER_SELECTION;
-          this.game.next(this.gameValue);
+          this.update();
         }, this.TRUMP_SELECTION_TIME);
-
-        this.gameValue.time = this.TRUMP_SELECTION_TIME / 1000;
-        this.timeInterval = setInterval(() => {
-          if (this.gameValue.time > 0) this.gameValue.time--;
-          this.game.next(this.gameValue);
-        }, 1000);
       }
     });
 
@@ -82,7 +71,7 @@ export class GameService {
       .subscribe((trumpSuit: string) => {
         this.gameValue.trumpSuit = trumpSuit;
         this.gameValue.gameMode = GameMode.PARTNER_SELECTION;
-        this.game.next(this.gameValue);
+        this.update();
 
         if (this.user.name === this.gameValue.highestBidPlayer.name) {
           this.partnerCardSelectionTimeout = setTimeout(() => {
@@ -94,14 +83,8 @@ export class GameService {
               'partner_selection',
               this.gameValue.partnerCard
             );
-            this.game.next(this.gameValue);
+            this.update();
           }, this.PARTNER_CARD_SELECTION_TIME);
-
-          this.gameValue.time = this.PARTNER_CARD_SELECTION_TIME / 1000;
-          this.timeInterval = setInterval(() => {
-            if (this.gameValue.time > 0) this.gameValue.time--;
-            this.game.next(this.gameValue);
-          }, 1000);
         }
       });
 
@@ -109,20 +92,25 @@ export class GameService {
       .listen('partner_selection')
       .subscribe((partnerCard: Card) => {
         this.gameValue.partnerCard = partnerCard;
-        this.game.next(this.gameValue);
+        this.gameValue.partner = this.gameValue.cards
+          .map((card) => card.rank + card.suit)
+          .includes(
+            this.gameValue.partnerCard.rank + this.gameValue.partnerCard.suit
+          );
+        this.update();
       });
 
     this.socketService.listen('start_playing').subscribe((turn: number) => {
       this.gameValue.turn = turn;
       this.gameValue.gameMode = GameMode.PLAYING;
-      this.game.next(this.gameValue);
+      this.update();
     });
 
     this.socketService.listen('play_card').subscribe((card: Card) => {
       this.gameValue.hand.push(card);
       this.gameValue.turn =
         (this.gameValue.turn + 1) % this.gameValue.players.length;
-      this.game.next(this.gameValue);
+      this.update();
     });
 
     this.socketService.listen('hand_end').subscribe((card: Card) => {
@@ -135,7 +123,49 @@ export class GameService {
         );
       }
       this.gameValue.hand = [];
-      this.game.next(this.gameValue);
+      this.update();
+    });
+
+    this.socketService.listen('playing_end').subscribe(() => {
+      const score = this.gameValue.collectedCards.reduce(
+        (acc, card) => acc + card['point_value'],
+        0
+      );
+      console.log(this.gameValue.partner);
+      if (this.user.name === this.gameValue.highestBidPlayer.name) {
+        if (this.gameValue.partner) {
+          this.socketService.emit('score_final', score * 2);
+          console.log(1);
+        }
+        this.socketService.emit('score', score);
+        console.log(2);
+      } else if (this.gameValue.partner) {
+        this.socketService.emit('score', score);
+        console.log(3);
+      }
+    });
+
+    this.socketService.listen('score_final').subscribe((score: number) => {
+      this.gameValue.gameMode = GameMode.END;
+      this.gameValue.score = score;
+      this.gameValue.endTime = new Date();
+      if (this.gameValue.score >= this.gameValue.highestBidPlayer.bid)
+        this.gameValue.won = true;
+      if (this.gameValue.partner) {
+        this.http
+          .post('http://127.0.0.1:5000/game', {
+            start_time: this.gameValue.startTime,
+            end_time: this.gameValue.endTime,
+            max_bid: this.gameValue.highestBidPlayer.bid,
+            bidder_name: this.gameValue.highestBidPlayer.name,
+            trump_suit: this.getSuit(this.gameValue.trumpSuit),
+            partner_card: `${this.gameValue.partnerCard.name} of ${this.gameValue.partnerCard.suit}`,
+            score: this.gameValue.score,
+          })
+          .subscribe((data) => console.log(data));
+      }
+      this.gameValue.started = false;
+      this.update();
     });
 
     this.socketService.listen('end_game').subscribe(() => {
@@ -146,13 +176,19 @@ export class GameService {
     });
   }
 
-  startGame(defaultBidder: string, cards: Card[], players: Player[]) {
+  startGame(
+    defaultBidder: string,
+    cards: Card[],
+    players: Player[],
+    startTime: Date
+  ) {
     const game = new Game(
-      new Player(defaultBidder, true, 125, true),
+      new Player(defaultBidder, 125, true),
       true,
       GameMode.BIDDING,
       cards,
-      players
+      players,
+      startTime
     );
     this.game.next(game);
 
@@ -171,7 +207,7 @@ export class GameService {
 
     this.gameValue.trumpSuit = trumpSuit;
     this.gameValue.gameMode = GameMode.PARTNER_SELECTION;
-    this.game.next(this.gameValue);
+    this.update();
 
     this.socketService.emit('trump_selection', trumpSuit);
   }
@@ -182,7 +218,7 @@ export class GameService {
 
     this.gameValue.partnerCard = partnerCard;
     this.gameValue.gameMode = GameMode.PLAYING;
-    this.game.next(this.gameValue);
+    this.update();
 
     this.socketService.emit('partner_selection', partnerCard);
     this.socketService.emit(
@@ -229,5 +265,22 @@ export class GameService {
     return this.gameValue.players.findIndex(
       (player) => player === shiftedPlayers[winner]
     );
+  }
+
+  getSuit(suit: string) {
+    switch (suit) {
+      case 'H':
+        return 'Hearts';
+      case 'S':
+        return 'Spades';
+      case 'C':
+        return 'Clubs';
+      case 'D':
+        return 'Diamonds';
+    }
+  }
+
+  update() {
+    this.game.next(this.gameValue);
   }
 }

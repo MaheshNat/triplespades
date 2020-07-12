@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { GameService } from '../game/game.service';
 import { Card } from '../game/card.model';
 import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/user.model';
 
 @Component({
   selector: 'app-waiting-room',
@@ -15,7 +16,7 @@ import { AuthService } from '../auth/auth.service';
 })
 export class WaitingRoomComponent implements OnInit, OnDestroy {
   players: Player[] = [];
-  name: string;
+  user: User;
 
   constructor(
     private socketService: SocketService,
@@ -29,30 +30,23 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
     this.http
       .get<string[]>('http://127.0.0.1:5000/players')
       .subscribe((players) => {
-        this.players = players.map((player) => new Player(player, true));
-
-        this.socketService.listen('join').subscribe((player: Player) => {
-          console.log(`${player.name} joined`);
-          let index = this.players.findIndex(
-            (_player) => _player.name === player.name
-          );
-          this.players[index].authenticated = true;
-        });
+        this.players = players.map((player) => new Player(player));
       });
 
     this.authService.user.subscribe((user) => {
-      this.name = user.name;
+      this.user = user;
+    });
+    this.socketService.emit('join', this.user.name);
+
+    this.socketService.listen('join').subscribe((playerName: string) => {
+      console.log(`${playerName} joined`);
+      this.players.push(new Player(playerName));
     });
 
-    this.socketService.listen('join').subscribe((player: Player) => {
-      console.log(`${player.name} joined`);
-      this.players.push(player);
-    });
-
-    this.socketService.listen('leave').subscribe((player: Player) => {
-      console.log(`${player.name} left`);
+    this.socketService.listen('leave').subscribe((playerName: string) => {
+      console.log(`${playerName} left`);
       this.players.splice(
-        this.players.findIndex((_player) => _player.name === player.name),
+        this.players.findIndex((_player) => _player.name === playerName),
         1
       );
     });
@@ -63,9 +57,10 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
         this.gameService.startGame(
           data['default_bidder'],
           data['cards'][
-            this.players.findIndex((player) => player.name === this.name)
+            this.players.findIndex((player) => player.name === this.user.name)
           ],
-          this.players
+          this.players,
+          new Date()
         );
         this.router.navigate(['/game']);
       });

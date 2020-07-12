@@ -24,6 +24,7 @@ DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?re
 BCRYPT_LOG_ROUNDS = 4
 selection_started = False
 players_list = []
+scores = []
 
 # create a instance of class and name is a placeholder for current module
 app = Flask(__name__)
@@ -34,6 +35,21 @@ CORS(app)
 
 client.CardDeck.blacklist_tokens.create_index(
     'createdAt', expireAfterSeconds=86400)
+
+
+@io.on('score')
+def score(data):
+    global scores
+    if len(scores) == 1:
+        emit('score_final', scores[0] + data, broadcast=True)
+    scores.append(data)
+
+
+@io.on('score_final')
+def score_final(data):
+    global players_list
+    players_list = []
+    emit('score_final', data, broadcast=True)
 
 
 @io.on('playing_end')
@@ -92,22 +108,21 @@ def bid(data):
 
 @io.on('join')
 def join(data):
+    print('join called', data)
     global players_list
-    players_list.append(data['name'])
-    print(players_list)
-    emit('join', data, broadcast=True)
-    if len(list(players_list)) == 3:
-        deck = list(client.CardDeck.card_deck.find({}, {'_id': False}))
-        random.shuffle(deck)
-        emit('start_game', {'default_bidder': random.choice(players_list),
-                            'cards': [deck[:10], deck[10:20], deck[20:30], deck[30:40], deck[40:50]]}, broadcast=True)
+    if players_list.count(data) == 0 and not len(players_list) == 5:
+        players_list.append(data)
+        emit('join', data, broadcast=True)
+        if len(players_list) == 5:
+            print('reached here bruh', players_list)
+            deck = list(client.CardDeck.card_deck.find({}, {'_id': False}))
+            random.shuffle(deck)
+            emit('start_game', {'default_bidder': random.choice(players_list),
+                                'cards': [deck[:10], deck[10:20], deck[20:30], deck[30:40], deck[40:50]]}, broadcast=True)
 
 
 @io.on('leave')
 def leave(data):
-    global players_list
-    print(data['name'], players_list)
-    players_list.remove(data['name'])
     emit('leave', data, broadcast=True)
 
 
@@ -126,6 +141,22 @@ def default_bidder():
                      '$set': {'default_bidder': False}})
     users.update_one(default_bidder, {'$set': {'default_bidder': True}})
     return default_bidder['name']
+
+
+@app.route('/game', methods=['POST'])
+def post_game():
+    data = request.get_json(force=True)
+    games = client.CardDeck.games
+    games.insert_one({'start_time': data['start_time'], 'end_time': data['end_time'],
+                      'max_bid': data['max_bid'], 'bidder_name': data['bidder_name'],
+                      'trump_suit': data['trump_suit'], 'partner_card': data['partner_card'], 'score': data['score']})
+    return response('INSERTED_GAME', 200)
+
+
+@app.route('/game', methods=['GET'])
+def get_game():
+    games = client.CardDeck.games
+    return dumps(list(games.find()))
 
 
 @app.route('/players', methods=['GET'])
@@ -159,19 +190,18 @@ def register():
 # response body: {token: string, name: string}
 @app.route('/login', methods=['POST'])
 def login():
+    global players_list
     users = client.CardDeck.users
     data = request.get_json(force=True)
     user = users.find_one({'email': data['email']})
+    if players_list.count(user['name']) > 0:
+        return response('ALREADY_AUTHENTICATED', 400)
     if not user:
         return response('EMAIL_NOT_FOUND', 400)
-    if user['authenticated']:
-        return response('ALREADY_AUTHENTICATED', 400)
     if not bcrypt.check_password_hash(user['password'], data['password']):
         return response('INVALID_PASSWORD', 400)
 
     auth_token = util.encode_auth_token(str(user['_id']))
-    print(auth_token)
-    users.update_one(user, {'$set': {'authenticated': True}})
     return jsonify({'token': auth_token.decode(), 'name': user['name']})
 
 # request body: {email: string, token: string}
@@ -181,8 +211,6 @@ def logout():
     users = client.CardDeck.users
     data = request.get_json(force=True)
     user = users.find_one({'email': data['email']})
-    if not user['authenticated']:
-        return response('NOT_AUTHENTICATED', 400)
     if not data.get('token'):
         return response('NO_TOKEN_PROVIDED', 403)
 
@@ -190,10 +218,9 @@ def logout():
     if resp is not None:
         client.CardDeck.blacklist_tokens.insert_one(
             {'token': data['token'], 'createdAt': datetime.datetime.now()})
-        users.update_one(user, {'$set': {'authenticated': False}})
         global selection_started, players_list
         selection_started = False
-        players_list = []
+        players_list.remove(data['name'])
         return jsonify({'message': 'success'})
 
 # request body: None

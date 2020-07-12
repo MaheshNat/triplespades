@@ -1,12 +1,9 @@
 <h1 class="text-center">Players In Room:</h1>
+
 <ul class="list-group" style="margin-top: 2em;">
   <li
-    class="list-group-item"
+    class="list-group-item list-group-item-success"
     *ngFor="let player of players"
-    [ngClass]="{
-      'list-group-item-success': player.authenticated,
-      'list-group-item-danger': !player.authenticated
-    }"
   >
     {{ player.name }}
   </li>

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { SocketService } from './socket.service';
 import { GameService } from './game/game.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -24,23 +25,17 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     // this.authService.autoLogin();
-
     this.userSub = this.authService.user.subscribe((user) => {
       this.user = user;
     });
-
     let context = this;
     window.addEventListener('beforeunload', async (e) => {
-      if (context.user)
-        await context.authService
-          .changeStatus(this.user.email, false)
-          .toPromise();
+      await context.socketService.emit('leave', context.user.name);
     });
   }
 
   async ngOnDestroy() {
     this.userSub.unsubscribe();
     this.socketSub.unsubscribe();
-    await this.authService.changeStatus(this.user.email, false).toPromise();
   }
 }

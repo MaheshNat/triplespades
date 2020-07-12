@@ -104,12 +104,6 @@
     <div *ngSwitchCase="gameMode.TRUMP_SELECTION">
       <div *ngIf="user.name === game.highestBidPlayer.name" class="text-center">
         <h1>Select A Trump suit</h1>
-        <div
-          class="row justify-content-center jumbotron"
-          style="margin-top: 2em; padding: 2em;"
-        >
-          <h1>Seconds left to choose a trump suit: {{ game.time }}</h1>
-        </div>
         <div class="row justify-content-center" style="margin: 0 auto;">
           <img
             *ngFor="let suit of suits"
@@ -160,8 +154,9 @@
     <div *ngSwitchCase="gameMode.PLAYING">
       <div class="jumbotron text-center" style="margin-top: 2em;">
         <h3>
-          Trump Suit: {{ getSuit(game.trumpSuit) }}, Partner Card:
-          {{ game.partnerCard.rank + ' of ' + game.partnerCard.suit }}
+          Trump Suit: {{ this.gameService.getSuit(game.trumpSuit) }}, Partner
+          Card:
+          {{ game.partnerCard.name + ' of ' + game.partnerCard.suit }}
         </h3>
         <h1>
           Turn: {{ game.players[game.turn].name }}
@@ -216,6 +211,27 @@
         </div>
       </div>
     </div>
-    <div *ngSwitchCase="gameMode.END"></div>
+    <div *ngSwitchCase="gameMode.END">
+      <div
+        class="jumbotron text-center"
+        style="margin-top: 2em;"
+        [ngClass]="game.won ? 'win' : 'loss'"
+      >
+        <div *ngIf="game.won">
+          <h1>The partnership team won!!!</h1>
+          <h2>
+            The partnership team collected {{ game.score }} points, which is
+            greater than the bid of {{ game.highestBidPlayer.bid }}
+          </h2>
+        </div>
+        <div *ngIf="!game.won">
+          <h1>The partnership team lost.</h1>
+          <h2>
+            The partnership team collected {{ game.score }} points, which is
+            less than the bid of {{ game.highestBidPlayer.bid }}
+          </h2>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../socket.service';
 import { Player } from '../shared/player.model';
-import { GameService } from '../game/game.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,10 +43,7 @@ export class AuthService {
           this.user.next(user);
           this.autoLogout(this.EXPIRES_IN * 1000);
           localStorage.setItem('userData', JSON.stringify(user));
-          this.socketService.emit(
-            'join',
-            new Player(user.name, user.authenticated)
-          );
+          this.socketService.emit('join', user.name);
           this.router.navigate(['/auth']);
         })
       );
@@ -68,48 +64,27 @@ export class AuthService {
       new Date(userData._tokenExpirationDate),
       true
     );
-    this.changeStatus(user.email, true).subscribe((resData) => {
-      if (user.token) {
-        this.user.next(user);
-        const expirationDate =
-          new Date(userData._tokenExpirationDate).getTime() -
-          new Date().getTime();
-        this.autoLogout(expirationDate);
-        this.router.navigate(['/waiting-room']);
-      }
-    });
-  }
-
-  changeStatus(email: string, status: boolean) {
-    return this.http
-      .post<{ message: string }>('http://127.0.0.1:5000/change-status', {
-        email: email,
-        authenticated: status,
-      })
-      .pipe(
-        catchError(this.handleError),
-        tap((resData) => {
-          let user = this.user.value;
-          user.authenticated = status;
-          this.user.next(user);
-          this.socketService.emit(
-            status ? 'join' : 'leave',
-            new Player(user.name, status)
-          );
-        })
-      );
+    if (user.token) {
+      this.user.next(user);
+      const expirationDate =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(expirationDate);
+      this.socketService.emit('join', user.name);
+      this.router.navigate(['/waiting-room']);
+    }
   }
 
   logout() {
     return this.http
       .post<{ message: string }>('http://127.0.0.1:5000/logout', {
+        name: this.user.value.name,
         email: this.user.value.email,
         token: this.user.value.token,
       })
       .pipe(
         catchError(this.handleError),
         tap((message) => {
-          this.socketService.emit('end_game', null);
           const expirationDate = new Date(
             new Date().getTime() + this.EXPIRES_IN * 1000
           );
@@ -120,10 +95,7 @@ export class AuthService {
             expirationDate,
             false
           );
-          this.socketService.emit(
-            'leave',
-            new Player(user.name, user.authenticated)
-          );
+          this.socketService.emit('leave', user.name);
           this.user.next(null);
           localStorage.removeItem('userData');
           if (this.tokenExpirationTimer)

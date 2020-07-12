@@ -8,12 +8,17 @@ export class Game {
     public gameMode?: GameMode,
     public cards?: Card[],
     public players?: Player[],
+    public startTime?: Date,
     public turn?: number,
     public hand: Card[] = [],
     public collectedCards: Card[] = [],
     public trumpSuit?: string,
     public partnerCard?: Card,
-    public time: number = 30
+    public partner?: boolean,
+    public score?: number,
+    public won: boolean = false,
+    public time: number = 30,
+    public endTime?: Date
   ) {}
 }
 

@@ -6,4 +6,8 @@ export class Card {
     public pointValue: number,
     public image: string
   ) {}
+
+  public short() {
+    return `${this.name} of ${this.suit}s`;
+  }
 }
