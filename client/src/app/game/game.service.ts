@@ -25,6 +25,7 @@ export class GameService {
   BIDDING_TIME = 30_000;
   allCards: Card[];
   user: User;
+  readonly apiUrl = 'https://triple-spades.herokuapp.com';
 
   constructor(
     private socketService: SocketService,
@@ -36,7 +37,7 @@ export class GameService {
       this.user = user;
     });
 
-    this.http.get<Card[]>('http://127.0.0.1:5000/cards').subscribe((cards) => {
+    this.http.get<Card[]>(`${this.apiUrl}/cards`).subscribe((cards) => {
       this.allCards = cards;
     });
 
@@ -153,7 +154,7 @@ export class GameService {
         this.gameValue.won = true;
       if (this.gameValue.partner) {
         this.http
-          .post('http://127.0.0.1:5000/game', {
+          .post(`${this.apiUrl}/game`, {
             start_time: this.gameValue.startTime,
             end_time: this.gameValue.endTime,
             max_bid: this.gameValue.highestBidPlayer.bid,

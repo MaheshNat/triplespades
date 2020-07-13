@@ -18,6 +18,8 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   players: Player[] = [];
   user: User;
 
+  readonly apiUrl = 'https://triple-spades.herokuapp.com';
+
   constructor(
     private socketService: SocketService,
     private gameService: GameService,
@@ -27,11 +29,9 @@ export class WaitingRoomComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.http
-      .get<string[]>('http://127.0.0.1:5000/players')
-      .subscribe((players) => {
-        this.players = players.map((player) => new Player(player));
-      });
+    this.http.get<string[]>(`${this.apiUrl}/players`).subscribe((players) => {
+      this.players = players.map((player) => new Player(player));
+    });
 
     this.authService.user.subscribe((user) => {
       this.user = user;

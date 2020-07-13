@@ -14,6 +14,7 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
   readonly EXPIRES_IN = 86400;
+  readonly apiUrl = 'https://triple-spades.herokuapp.com';
 
   constructor(
     private http: HttpClient,
@@ -23,7 +24,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http
-      .post<{ token: string; name: string }>('http://127.0.0.1:5000/login', {
+      .post<{ token: string; name: string }>(`${this.apiUrl}/login`, {
         email: email,
         password: password,
       })
@@ -77,7 +78,7 @@ export class AuthService {
 
   logout() {
     return this.http
-      .post<{ message: string }>('http://127.0.0.1:5000/logout', {
+      .post<{ message: string }>(`${this.apiUrl}/logout`, {
         name: this.user.value.name,
         email: this.user.value.email,
         token: this.user.value.token,

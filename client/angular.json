@@ -19,7 +19,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
-            "assets": ["src/favicon.ico", "src/assets", "src/atlassian-connect.json"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/atlassian-connect.json"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -62,6 +66,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "proxyCofig": "proxy.conf.json",
           "options": {
             "browserTarget": "client:build"
           },

@@ -2,7 +2,7 @@
   "name": "Triple Spades",
   "description": "Jira Connect app",
   "key": "com.tripleSpades.codegiest",
-  "baseUrl": "https://746abf415929.ngrok.io",
+  "baseUrl": "https://9bb83125efba.ngrok.io",
   "vendor": {
     "name": "Example1, Inc.",
     "url": "http://example1.com"

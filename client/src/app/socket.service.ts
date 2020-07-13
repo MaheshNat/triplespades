@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class SocketService {
   socket: any;
-  readonly URI = 'http://127.0.0.1:5000/';
+  readonly URI = 'https://triple-spades.herokuapp.com';
 
   constructor() {
     this.socket = io(this.URI);

@@ -103,7 +103,7 @@ export class GameComponent implements OnInit {
         );
         if (this.game.hand.length === this.game.players.length - 1) {
           this.socketService.emit('hand_end', card);
-          if (this.game.cards.length === 8)
+          if (this.game.cards.length === 0)
             this.socketService.emit('playing_end', null);
         } else this.socketService.emit('play_card', card);
         this.gameService.game.next(this.game);

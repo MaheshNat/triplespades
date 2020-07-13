@@ -1,3 +1,4 @@
+import os
 import random
 from flask import Flask, jsonify, request, make_response
 from flask_socketio import SocketIO, send, emit
@@ -11,6 +12,8 @@ import util
 import datetime
 from flask_bcrypt import Bcrypt
 from time import sleep
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -20,7 +23,7 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 
-DB_URI = 'mongodb+srv://helli:Password%21@cluster0-rmyoh.mongodb.net/CardDeck?retryWrites=true&w=majority'
+DB_URI = os.getenv('DB_URI')
 BCRYPT_LOG_ROUNDS = 4
 selection_started = False
 players_list = []
@@ -183,7 +186,7 @@ def register():
         data['password'], BCRYPT_LOG_ROUNDS
     ).decode()
     users.insert(
-        {'name': data['name'], 'email': data['email'], 'password': password, 'authenticated': False})
+        {'name': data['name'], 'email': data['email'], 'password': password})
     return response('SUCCESS', 201)
 
 # request body: {email: string, password: string}
