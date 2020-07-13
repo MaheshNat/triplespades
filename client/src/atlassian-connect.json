@@ -1,7 +1,7 @@
 {
   "name": "Triple Spades",
   "description": "Jira Connect app",
-  "key": "com.3tripSpad.codegiest",
+  "key": "com.tripleSpades.codegiest",
   "baseUrl": "https://746abf415929.ngrok.io",
   "vendor": {
     "name": "Example1, Inc.",
@@ -18,7 +18,7 @@
         "key": "hello-triplespade",
         "location": "system.top.navigation.bar",
         "name": {
-          "value": "Three Triple Spade"
+          "value": "Greet Triple Spade"
         },
         "cacheable": true
       }
