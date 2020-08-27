@@ -18,7 +18,7 @@ print(ANGULAR_PROJECT_PATH, FLASK_STATIC_PATH,
       FLASK_TEMPLATES_PATH, NON_ANGULAR_DIRS)
 
 subprocess.call(('cd ' + ANGULAR_PROJECT_PATH +
-                 ' && ng build --watch  --base-href /static/ &'), shell=True)
+                 ' && ng build --watch --prod  --base-href /static/ &'), shell=True)
 
 dir_exists = True
 

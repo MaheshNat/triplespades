@@ -26,7 +26,7 @@ export class GameComponent implements OnInit {
   constructor(
     private socketService: SocketService,
     private authService: AuthService,
-    private gameService: GameService,
+    public gameService: GameService,
     private modalService: NgbModal
   ) {}
 
