@@ -1,6 +1,6 @@
 import os
 import random
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 from flask_socketio import SocketIO, send, emit
 from flask_cors import CORS
 from pymongo import MongoClient
@@ -25,6 +25,7 @@ class JSONEncoder(json.JSONEncoder):
 
 DB_URI = os.getenv('DB_URI')
 BCRYPT_LOG_ROUNDS = 4
+
 selection_started = False
 players_list = []
 scores = []
@@ -111,13 +112,11 @@ def bid(data):
 
 @io.on('join')
 def join(data):
-    print('join called', data)
     global players_list
     if players_list.count(data) == 0 and not len(players_list) == 5:
         players_list.append(data)
         emit('join', data, broadcast=True)
         if len(players_list) == 5:
-            print('reached here bruh', players_list)
             deck = list(client.CardDeck.card_deck.find({}, {'_id': False}))
             random.shuffle(deck)
             emit('start_game', {'default_bidder': random.choice(players_list),
@@ -185,9 +184,10 @@ def register():
     password = bcrypt.generate_password_hash(
         data['password'], BCRYPT_LOG_ROUNDS
     ).decode()
-    users.insert(
+    user = users.insert_one(
         {'name': data['name'], 'email': data['email'], 'password': password})
-    return response('SUCCESS', 201)
+    auth_token = util.encode_auth_token(str(user.inserted_id))
+    return jsonify({'token': auth_token.decode(), 'name': data['name']})
 
 # request body: {email: string, password: string}
 # response body: {token: string, name: string}
@@ -233,8 +233,7 @@ def get_authenticated_users():
     users = client.CardDeck.users
     names = list(users.find())
     for i in range(len(names)):
-        names[i] = {'name': names[i]['name'],
-                    'authenticated': names[i]['authenticated']}
+        names[i] = {'name': names[i]['name']}
     return jsonify(names)
 
 # request body: {email: string, authenticated: boolean}
@@ -250,6 +249,17 @@ def change_status():
         return response('ALREADY_AUTHENTICATED', 400)
     users.update_one(user, {'$set': {'authenticated': data['authenticated']}})
     return jsonify({'message': 'success'})
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return render_template('index.html')
+
+
+# @app.route('/<path:path>')
+# def static_proxy(path):
+#     return render_template('index.html')
 
 
 def response(message, status_code):

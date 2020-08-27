@@ -1,0 +1,15 @@
+.auth {
+  margin-top: 2em;
+}
+
+.error {
+  margin-top: 1em;
+}
+
+.shadow {
+  padding: 2em;
+}
+
+.login {
+  border-radius: 10px;
+}
