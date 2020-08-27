@@ -1,6 +1,8 @@
 [Demo Video](https://www.youtube.com/watch?v=-WdOp0SG6MY)
 ![Demo Gif](https://maheshnat.me/static/media/TripleSpades.a4c96515.gif)
 
+**website backend does not work, deployment very slow with heroku**
+
 ## Inspiration
 
 The inspiration for Triple Spades was that there was no other application out in the market currently that allowed users to play the card game of triple spades in real-time, so we decided to build one ourselves.
