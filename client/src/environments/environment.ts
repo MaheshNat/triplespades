@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://triple-spades.herokuapp.com",
+  apiUrl: "https://triple-spades.uc.r.appspot.com",
 };
 
 /*

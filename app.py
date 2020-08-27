@@ -158,7 +158,8 @@ def post_game():
 @app.route('/game', methods=['GET'])
 def get_game():
     games = client.CardDeck.games
-    return dumps(list(games.find()))
+    bruh = dumps(list(games.find()))
+    return bruh
 
 
 @app.route('/players', methods=['GET'])
@@ -254,6 +255,8 @@ def change_status():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
+    # if path in ['/change-status', '/users', '/logout', '/login', '/register', '/cards', '/']
+    print(path)
     return render_template('index.html')
 
 
@@ -273,6 +276,6 @@ def response(message, status_code):
 if __name__ == '__main__':
     # selection_started = False
     # debug=True is used when we ddnt saved changes by need output to
-    app.run()
+    app.run(debug=True)
     # running the socketio server
     io.run(app)
