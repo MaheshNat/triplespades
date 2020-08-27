@@ -255,8 +255,8 @@ def change_status():
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
-    # if path in ['/change-status', '/users', '/logout', '/login', '/register', '/cards', '/']
-    print(path)
+    if path in ['/change-status', '/users', '/logout', '/login', '/register', '/cards', '/players', '/game']:
+        print(f'uhhhh... {path}')
     return render_template('index.html')
 
 
