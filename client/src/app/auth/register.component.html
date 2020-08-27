@@ -1,0 +1,63 @@
+<div class="row justify-content-center auth">
+  <div class="col-xs-12 col-md-6">
+    <div *ngIf="isLoading" style="text-align: center">
+      <app-spinner></app-spinner>
+    </div>
+    <form
+      #authForm="ngForm"
+      (ngSubmit)="onSubmit(authForm)"
+      *ngIf="!isLoading"
+      class="shadow login"
+    >
+      <h3 class="text-center">Register</h3>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          ngModel
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          ngModel
+          required
+          email
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          ngModel
+          required
+          minlength="6"
+        />
+      </div>
+      <div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!authForm.valid"
+          [ngStyle]="{ cursor: !authForm.valid ? 'not-allowed' : 'default' }"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+    <div class="alert alert-danger error" *ngIf="error && !isLoading">
+      {{ error }}
+    </div>
+  </div>
+</div>

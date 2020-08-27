@@ -1,0 +1,70 @@
+<div class="jumbotron text-center shadow" style="margin-top: 2em">
+  <h1>Welcome to Triple Spades</h1>
+  <div class="row justify-content-center">
+    <img
+      class="img img-responsive col"
+      src="https://maheshnat.me/static/media/TripleSpades.a4c96515.gif"
+      alt="Demo gif"
+    />
+  </div>
+  <br />
+  <button class="btn btn-lg btn-primary" (click)="onNavigate()">
+    Play Now
+  </button>
+  <hr />
+  <h3>Rules</h3>
+  <h5>
+    <a href="https://www.youtube.com/watch?v=-WdOp0SG6MY"
+      >Hackathon Submission Video (Covers gameplay process and rules)
+    </a>
+  </h5>
+  <ol class="text-left">
+    <li>
+      Before the game begins, players bid in a random fashion, based on their
+      cards. This bid number is the amount of points the player's partnership
+      will have to collect in order to win.
+    </li>
+    <li>
+      The highest bidder at the end of 30 seconds will be able to decide a
+      'trump' and 'partner' card. The trump card is the card a player can lay
+      down to overthrow a higher rank card if they do not have the suit they
+      need to put down during the playing section. The player with the partner
+      card will be partners with the highest bidder.
+    </li>
+    <li>
+      Next, the gameplay process begins, during which each player puts down a
+      card with the same suit as the first card played. If they do not have the
+      suit they can put down a card of the trump to overthrow the card for a
+      higher value or put down a card of another suit for a lower vlaue.
+    </li>
+    <li>
+      After each hand, the player with the highest card based on the trump suit
+      and card ranks collects the entire hand, and gains a number of points
+      equal to the number of points in the hand (5's = 5 points, 10's/Face Cards
+      = 10 points, everything else = 0 points).
+    </li>
+    <li>
+      This process repeats until all players run out of their cards, and if the
+      partnership (highest bidder + player with partner card) have collected a
+      number of points equal to or above the highest bid, they win, otherwise,
+      they lose.
+    </li>
+  </ol>
+  <hr />
+  <h3>
+    Tech Stack
+    <a href="https://github.com/Black-Triple/triplespades">(Github)</a>
+  </h3>
+  <ul class="text-left">
+    <li>Front End: Angular 8 (HTML/CSS, TypeScript)</li>
+    <li>Back End: Flask API (Python)</li>
+    <li>Database: mongoDB</li>
+    <li>Authentication: JWT</li>
+    <li>Realtime communication: SocketIO</li>
+  </ul>
+  <hr />
+  <p>
+    Submitted to Atlassian Codegeist hackathon by
+    <a href="https://maheshnat.me">Mahesh Natamai</a>
+  </p>
+</div>

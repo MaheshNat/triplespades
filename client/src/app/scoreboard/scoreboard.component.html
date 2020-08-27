@@ -1,0 +1,42 @@
+<div *ngIf="!scoreboard" class="row justify-content-center text-center">
+  <div class="col">
+    <div
+      class="spinner-border text-primary"
+      role="status"
+      style="width: 3rem; height: 3rem;"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+<div class="table-responsive" *ngIf="scoreboard">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Max Bid</th>
+        <th scope="col">Bidder Name</th>
+        <th scope="col">Trump Suit</th>
+        <th scope="col">Partner Card</th>
+        <th scope="col">Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let score of scoreboard; let i = index"
+        [ngClass]="score['score'] >= score['max_bid'] ? 'win' : 'loss'"
+      >
+        <td>{{ i + 1 }}</td>
+        <td>{{ score['start_time'] }}</td>
+        <td>{{ score['end_time'] }}</td>
+        <td>{{ score['max_bid'] }}</td>
+        <td>{{ score['bidder_name'] }}</td>
+        <td>{{ score['trump_suit'] }}</td>
+        <td>{{ score['partner_card'] }}</td>
+        <td>{{ score['score'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

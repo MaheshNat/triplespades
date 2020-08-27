@@ -1,0 +1,6 @@
+{
+  "/": {
+    "target": "https://triple-spades.herokuapp.com",
+    "secure": true
+  }
+}
