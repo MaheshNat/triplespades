@@ -278,4 +278,4 @@ if __name__ == '__main__':
     # debug=True is used when we ddnt saved changes by need output to
     app.run(debug=True)
     # running the socketio server
-    io.run(app)
+    io.run(app, host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
