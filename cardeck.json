@@ -1,0 +1,366 @@
+[
+  {
+    "suit": "Clubs",
+    "name": "2",
+    "rank": "2",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "3",
+    "rank": "3",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "4",
+    "rank": "4",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "5",
+    "rank": "5",
+    "point_value": "5",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "6",
+    "rank": "6",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "7",
+    "rank": "7",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "8",
+    "rank": "8",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "9",
+    "rank": "9",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "10",
+    "rank": "10",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "J",
+    "rank": "11",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "Q",
+    "rank": "12",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "K",
+    "rank": "13",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Clubs",
+    "name": "A",
+    "rank": "14",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "2",
+    "rank": "2",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "3",
+    "rank": "3",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "4",
+    "rank": "4",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "5",
+    "rank": "5",
+    "point_value": "5",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "6",
+    "rank": "6",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "7",
+    "rank": "7",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "8",
+    "rank": "8",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "9",
+    "rank": "9",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "10",
+    "rank": "10",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "J",
+    "rank": "11",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "Q",
+    "rank": "12",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "K",
+    "rank": "13",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Diamond",
+    "name": "A",
+    "rank": "14",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "2",
+    "rank": "2",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "3",
+    "rank": "3",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "4",
+    "rank": "4",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "5",
+    "rank": "5",
+    "point_value": "5",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "6",
+    "rank": "6",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "7",
+    "rank": "7",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "8",
+    "rank": "8",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "9",
+    "rank": "9",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "10",
+    "rank": "10",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "J",
+    "rank": "11",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "Q",
+    "rank": "12",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "K",
+    "rank": "13",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Hearts",
+    "name": "A",
+    "rank": "14",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "2",
+    "rank": "2",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "3",
+    "rank": "3",
+    "point_value": "30",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "4",
+    "rank": "4",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "5",
+    "rank": "5",
+    "point_value": "5",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "6",
+    "rank": "6",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "7",
+    "rank": "7",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "8",
+    "rank": "8",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "9",
+    "rank": "9",
+    "point_value": "0",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "10",
+    "rank": "10",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "J",
+    "rank": "11",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "Q",
+    "rank": "12",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "K",
+    "rank": "13",
+    "point_value": "10",
+    "image": ""
+  },
+  {
+    "suit": "Spades",
+    "name": "A",
+    "rank": "14",
+    "point_value": "10",
+    "image": ""
+  }
+]
