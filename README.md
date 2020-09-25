@@ -1,5 +1,5 @@
 ## [Demo Video](https://www.youtube.com/watch?v=-WdOp0SG6MY)
-![Demo Gif](https://maheshnat.me/static/media/TripleSpades.a4c96515.gif)
+![Demo Gif](https://s1.gifyu.com/images/TripleSpades.gif)
 
 **website backend does not work, deployment very slow with heroku**
 
